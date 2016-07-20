@@ -193,7 +193,12 @@
     UITableViewCell* cell = [self dequeueReusableCellWithIdentifier:reuseID forIndexPath:indexPath];
     cell.tableView = self;
     cell.indexPath = indexPath;
-    return [cell cellWithInfo:model];
+    if ([cell respondsToSelector:@selector(cellWithInfo:)]) {
+        return [cell cellWithInfo:model];
+    }
+    else {
+        return cell;
+    }
 }
 
 - (NSObject*)modelOfCellModels:(NSArray *)cellModels atIndexPath:(NSIndexPath *)indexPath
