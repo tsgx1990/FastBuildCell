@@ -164,6 +164,7 @@
     for (id model in cellModels) {
         configBlock(self, model);
         [model clearHeightCacheInScrollView:self]; // tabelView重新加载时默认清空高度缓存
+        [model useHeightCache:YES inScrollView:self]; // 默认情况下使用高度缓存
         Class modelCellClass = [model reuseCellClassInScrollView:self];
         NSString* modelCellID = [model reuseIdentifierInScrollView:self];
         [self registerClass:modelCellClass forCellReuseIdentifier:modelCellID];
@@ -189,10 +190,7 @@
 - (UITableViewCell *)cellWithCellModels:(NSArray *)cellModels forIndexPath:(NSIndexPath *)indexPath
 {
     NSObject* model = [self modelOfCellModels:cellModels atIndexPath:indexPath];
-    NSString* reuseID = [model reuseIdentifierInScrollView:self];
-    UITableViewCell* cell = [self dequeueReusableCellWithIdentifier:reuseID forIndexPath:indexPath];
-    cell.tableView = self;
-    cell.indexPath = indexPath;
+    UITableViewCell* cell = [self rawCellOfCellModel:model atIndexPath:indexPath];
     if ([cell respondsToSelector:@selector(cellWithInfo:)]) {
         return [cell cellWithInfo:model];
     }
@@ -213,12 +211,35 @@
     return model;
 }
 
+- (UITableViewCell*)rawCellOfCellModel:(NSObject*)cellModel atIndexPath:(NSIndexPath *)indexPath
+{
+    NSString* reuseID = [cellModel reuseIdentifierInScrollView:self];
+    UITableViewCell* cell = [self dequeueReusableCellWithIdentifier:reuseID forIndexPath:indexPath];
+    cell.tableView = self;
+    cell.indexPath = indexPath;
+    return cell;
+}
+
 - (CGFloat)cellHeightWithModel:(NSObject*)model
 {
     // 不使用缓存，或者没有缓存的时候
     Class cellClass = [model reuseCellClassInScrollView:self];
     CGFloat cellHeight = [self cellHeightForCellClass:cellClass withInfo:model];
     return cellHeight;
+}
+
+- (__kindof UITableViewCell*)rawCalculateCellForModel:(NSObject *)model
+{
+    Class cellClass = [model reuseCellClassInScrollView:self];
+    UITableViewCell* cell = [self cellForClass:cellClass];
+    return cell;
+}
+
+- (__kindof UITableViewCell*)rawCellWithCellModels:(NSArray*)cellModels forIndexPath:(NSIndexPath*)indexPath;
+{
+    NSObject* model = [self modelOfCellModels:cellModels atIndexPath:indexPath];
+    UITableViewCell* cell = [self rawCellOfCellModel:model atIndexPath:indexPath];
+    return cell;
 }
 
 - (BOOL)usingHeightCacheForRowAtIndexPath:(NSIndexPath*)indexPath
