@@ -40,11 +40,6 @@
                 break;
         }
     }
-    
-    if ([self respondsToSelector:@selector(headerFooterContentViewWidth)]) {
-        CGFloat customWidth = self.headerFooterContentViewWidth;
-        contentWidth = customWidth < CGFLOAT_MIN ? contentWidth : customWidth;
-    }
     return [self heightAfterInitializationWithContentWidth:contentWidth];
 }
 
@@ -58,6 +53,9 @@
 
 - (void)remakeConstraitsWithContentWidth:(CGFloat)contentViewWidth
 {
+    CGFloat sysVersion = [[UIDevice currentDevice].systemVersion floatValue];
+    
+    self.contentView.translatesAutoresizingMaskIntoConstraints = (sysVersion > 9.9);
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
     NSLayoutConstraint* widthConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:contentViewWidth];
     NSLayoutConstraint* heightConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:0];
@@ -70,8 +68,7 @@
         }
     }
     
-    CGFloat sysVersion = [[UIDevice currentDevice].systemVersion floatValue];
-    if (sysVersion < 8.0) {
+    if (sysVersion < 7.9) {
         [self.contentView removeConstraints:toRemoveConstraints];
         [self.contentView addConstraints:toAddConstraints];
     }
