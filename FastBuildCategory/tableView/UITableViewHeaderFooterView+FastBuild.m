@@ -45,36 +45,85 @@
 
 - (CGFloat)heightAfterInitializationWithContentWidth:(CGFloat)contentViewWidth
 {
-    [self remakeConstraitsWithContentWidth:contentViewWidth];
+    [self lgl_remakeConstraitsWithContentWidth:contentViewWidth];
     [self layoutIfNeeded];
     CGFloat hfHeight = [self.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
     return hfHeight;
 }
 
-- (void)remakeConstraitsWithContentWidth:(CGFloat)contentViewWidth
+- (void)lgl_remakeConstraitsWithContentWidth:(CGFloat)contentViewWidth
 {
     CGFloat sysVersion = [[UIDevice currentDevice].systemVersion floatValue];
-    
     self.contentView.translatesAutoresizingMaskIntoConstraints = (sysVersion > 9.9);
-    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSLayoutConstraint* widthConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:contentViewWidth];
-    NSLayoutConstraint* heightConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:0];
     
-    NSArray* toAddConstraints = @[widthConstraint, heightConstraint];
-    NSMutableArray* toRemoveConstraints = [NSMutableArray arrayWithCapacity:2];
-    for (NSLayoutConstraint* constraint in self.contentView.constraints) {
-        if (constraint.firstItem == self.contentView && constraint.secondItem == nil) {
-            [toRemoveConstraints addObject:constraint];
+    [self lgl_tryAddWidthConstraintWithContentWidth:contentViewWidth];
+    [self lgl_tryAddHeightConstraint];
+}
+
+- (void)lgl_tryAddWidthConstraintWithContentWidth:(CGFloat)contentViewWidth
+{
+    CGFloat sysVersion = [[UIDevice currentDevice].systemVersion floatValue];
+    NSLayoutConstraint* widthConstraint = objc_getAssociatedObject(self, __func__);
+    
+    // 约束的宽度发生改变的情况
+    if (widthConstraint && ABS(widthConstraint.constant - contentViewWidth) > 0.12) {
+        if (sysVersion < 7.9) {
+            [self.contentView removeConstraint:widthConstraint];
+        }
+        else {
+            widthConstraint.active = NO;
+        }
+        widthConstraint = nil;
+    }
+    
+    // 约束没有添加到 self.contentView 的情况
+    if (widthConstraint && ![self.contentView.constraints containsObject:widthConstraint]) {
+        if (sysVersion < 7.9) {
+            [self.contentView addConstraint:widthConstraint];
+        }
+        else {
+            widthConstraint.active = YES;
         }
     }
     
-    if (sysVersion < 7.9) {
-        [self.contentView removeConstraints:toRemoveConstraints];
-        [self.contentView addConstraints:toAddConstraints];
+    // 约束还没创建的情况
+    if (!widthConstraint) {
+        widthConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:contentViewWidth];
+        objc_setAssociatedObject(self, __func__, widthConstraint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        
+        if (sysVersion < 7.9) {
+            [self.contentView addConstraint:widthConstraint];
+        }
+        else {
+            widthConstraint.active = YES;
+        }
     }
-    else {
-        [NSLayoutConstraint deactivateConstraints:toRemoveConstraints];
-        [NSLayoutConstraint activateConstraints:toAddConstraints];
+}
+
+- (void)lgl_tryAddHeightConstraint
+{
+    CGFloat sysVersion = [[UIDevice currentDevice].systemVersion floatValue];
+    NSLayoutConstraint* heightConstraint = objc_getAssociatedObject(self, __func__);
+    
+    if (heightConstraint && ![self.contentView.constraints containsObject:heightConstraint]) {
+        if (sysVersion < 7.9) {
+            [self.contentView addConstraint:heightConstraint];
+        }
+        else {
+            heightConstraint.active = YES;
+        }
+    }
+    
+    if (!heightConstraint) {
+        heightConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:0];
+        objc_setAssociatedObject(self, __func__, heightConstraint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        
+        if (sysVersion < 7.9) {
+            [self.contentView addConstraint:heightConstraint];
+        }
+        else {
+            heightConstraint.active = YES;
+        }
     }
 }
 
