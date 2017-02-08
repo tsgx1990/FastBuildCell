@@ -58,14 +58,18 @@
 - (void)fb_layoutAfterInitializationWithContentWidth:(CGFloat)contentViewWidth
 {
     [self lgl_remakeConstraitsWithContentWidth:contentViewWidth];
-    [self layoutIfNeeded]; // 在ios7中必须有
     
+    // 在ios10中 layoutIfNeeded 不会改变 subview 的 size，所以需要强制改变
     CGFloat sysVersion = [[UIDevice currentDevice].systemVersion floatValue];
     if (sysVersion > 9.9) {
         CGSize s = [self.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
         self.bounds = CGRectMake(0, 0, s.width, s.height);
         [self sizeToFit];
-        [self fb_lgl_removeUnavailableConstraints]; // ios10
+        [self layoutIfNeeded];
+        [self fb_lgl_removeUnavailableConstraints];
+    }
+    else {
+        [self layoutIfNeeded];
     }
 }
 
