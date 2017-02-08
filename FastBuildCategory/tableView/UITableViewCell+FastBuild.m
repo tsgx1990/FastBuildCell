@@ -11,7 +11,19 @@
 
 @implementation UITableViewCell (FastBuild)
 
-- (CGFloat)heightAfterInitialization
+- (CGFloat)fb_heightAfterInitialization
+{
+    [self fb_layoutAfterInitialization];
+    return [self lgl_fb_cellHeightFittingCompressedSize];
+}
+
+- (CGFloat)fb_heightAfterInitializationWithContentWidth:(CGFloat)contentViewWidth
+{
+    [self fb_layoutAfterInitializationWithContentWidth:contentViewWidth];
+    return [self lgl_fb_cellHeightFittingCompressedSize];
+}
+
+- (void)fb_layoutAfterInitialization;
 {
     CGFloat contentWidth = 0;
     if ([self respondsToSelector:@selector(cellContentViewWidth)]) {
@@ -40,13 +52,55 @@
                 break;
         }
     }
-    return [self heightAfterInitializationWithContentWidth:contentWidth];
+    [self fb_layoutAfterInitializationWithContentWidth:contentWidth];
 }
 
-- (CGFloat)heightAfterInitializationWithContentWidth:(CGFloat)contentViewWidth
+- (void)fb_layoutAfterInitializationWithContentWidth:(CGFloat)contentViewWidth
 {
     [self lgl_remakeConstraitsWithContentWidth:contentViewWidth];
     [self layoutIfNeeded]; // 在ios7中必须有
+    
+    CGFloat sysVersion = [[UIDevice currentDevice].systemVersion floatValue];
+    if (sysVersion > 9.9) {
+        CGSize s = [self.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        self.bounds = CGRectMake(0, 0, s.width, s.height);
+        [self sizeToFit];
+        [self fb_lgl_removeUnavailableConstraints]; // ios10
+    }
+}
+
+- (void)fb_lgl_removeUnavailableConstraints
+{
+    for (NSLayoutConstraint* constraint in self.contentView.constraints) {
+        if (constraint.firstItem == self.contentView) {
+            if (![constraint.identifier isEqualToString:@"123-456-lgl"]) {
+                constraint.active = NO;
+            }
+        }
+    }
+}
+
+- (void)fb_lsResetForModel:(NSObject *)model make:(void (^)(NSObject *m))makeBlock set:(void(^)(FBLineSpaceMaker* maker))setBlock
+{
+    makeBlock(model);
+    [model fb_lsEnumerateMakersUsingBlock:^(NSString *key, FBLineSpaceMaker *maker) {
+        setBlock(maker);
+    }];
+    [self fb_layoutAfterInitialization];
+    
+    [model fb_lsEnumerateMakersUsingBlock:^(NSString *key, FBLineSpaceMaker *maker) {
+        [maker.label sizeToFit];
+        CGFloat lblHeight = maker.label.frame.size.height + 1;
+        int lineNum = (lblHeight + maker.lineSpace) / (maker.label.font.lineHeight + maker.lineSpace);
+        if (lineNum < 2) {
+            maker.setLineSpace(0);
+            setBlock(maker);
+        }
+    }];
+}
+
+- (CGFloat)lgl_fb_cellHeightFittingCompressedSize
+{
     CGFloat cellHeight = [self.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
     return cellHeight;
 }
@@ -55,7 +109,6 @@
 {
     CGFloat sysVersion = [[UIDevice currentDevice].systemVersion floatValue];
     self.contentView.translatesAutoresizingMaskIntoConstraints = (sysVersion > 9.9);
-    
     [self lgl_tryAddWidthConstraintWithContentWidth:contentViewWidth];
     [self lgl_tryAddHeightConstraint];
 }
@@ -89,6 +142,7 @@
     // 约束还没创建的情况
     if (!widthConstraint) {
         widthConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:contentViewWidth];
+        widthConstraint.identifier = @"123-456-lgl";
         objc_setAssociatedObject(self, __func__, widthConstraint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         
         if (sysVersion < 7.9) {
@@ -116,6 +170,7 @@
     
     if (!heightConstraint) {
         heightConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:0];
+        heightConstraint.identifier = @"123-456-lgl";
         objc_setAssociatedObject(self, __func__, heightConstraint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         
         if (sysVersion < 7.9) {

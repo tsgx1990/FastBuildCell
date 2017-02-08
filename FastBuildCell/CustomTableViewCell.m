@@ -7,6 +7,7 @@
 //
 
 #import "CustomTableViewCell.h"
+#import "UILabel+AddUtils.h"
 #import "Masonry.h"
 
 @interface CustomTableViewCell()
@@ -58,15 +59,23 @@
     return _imgView;
 }
 
-- (CGFloat)cellHeightWithInfo:(NSString*)title
+- (CGFloat)cellHeightWithInfo:(CustomTableViewCellModel*)model
 {
-    self.titleLbl.text = title;
-    return self.heightAfterInitialization;
+    [self fb_lsResetForModel:model make:^(NSObject *m) {
+        m.fb_lsMakerForKey(@"")
+        .setLabel(self.titleLbl)
+        .setTitle(model.title)
+        .setLineSpace(18);
+    } set:^(FBLineSpaceMaker *maker) {
+        [maker.label xtt_setText:maker.title lineSpace:maker.lineSpace];
+    }];
+    return self.fb_heightAfterInitialization;
 }
 
-- (instancetype)cellWithInfo:(NSString*)title
+- (instancetype)cellWithInfo:(CustomTableViewCellModel*)model
 {
-    self.titleLbl.text = title;
+    CGFloat ls = model.fb_lsMakerForKey(@"").lineSpace;
+    [self.titleLbl xtt_asyncSetText:model.title lineSpace:ls complete:nil];
     return self;
 }
 

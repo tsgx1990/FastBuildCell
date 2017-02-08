@@ -7,13 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NSObject+FastBuild.h"
 
 @interface UITableViewCell (FastBuild)
 
 
-@property (nonatomic, readonly) CGFloat heightAfterInitialization;
+@property (nonatomic, readonly) CGFloat fb_heightAfterInitialization;
 
-- (CGFloat)heightAfterInitializationWithContentWidth:(CGFloat)contentViewWidth;
+- (CGFloat)fb_heightAfterInitializationWithContentWidth:(CGFloat)contentViewWidth;
+
+- (void)fb_layoutAfterInitialization;
+
+- (void)fb_layoutAfterInitializationWithContentWidth:(CGFloat)contentViewWidth;
+
+- (void)fb_lsResetForModel:(NSObject *)model make:(void (^)(NSObject* m))makeBlock set:(void(^)(FBLineSpaceMaker* maker))setBlock;
 
 @property (nonatomic, retain) NSIndexPath* indexPath;
 @property (nonatomic, weak) UITableView* tableView;

@@ -6,10 +6,15 @@
 //  Copyright © 2016年 bjhl. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "FBLineSpaceMaker.h"
 
 @interface NSObject (FastBuild)
+
+@property (nonatomic, assign) CGFloat fb_lineSpace;
+
+@property (nonatomic, copy) FBLineSpaceMaker* (^fb_lsMakerForKey)(NSString* key);
+- (void)fb_lsEnumerateMakersUsingBlock:(void(^)(NSString* key, FBLineSpaceMaker* maker))block;
 
 // 配置model
 - (void)configReuseCellClass:(Class)reuseCellClass andIdentifier:(NSString*)reuseIdentifier inScrollView:(UIScrollView*)scrollView;

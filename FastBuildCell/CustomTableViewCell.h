@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CellFastBuild.h"
+#import "CustomTableViewCellModel.h"
 
 @interface CustomTableViewCell : UITableViewCell
 

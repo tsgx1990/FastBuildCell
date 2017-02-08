@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E702B17B1E49B438003E8962 /* UILabel+AddUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B17A1E49B438003E8962 /* UILabel+AddUtils.m */; };
+		E702B17E1E49C845003E8962 /* CustomTableViewCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B17D1E49C845003E8962 /* CustomTableViewCellModel.m */; };
+		E702B1811E4A1073003E8962 /* FBLineSpaceMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B1801E4A1073003E8962 /* FBLineSpaceMaker.m */; };
 		E72187F41D1AF0A000379333 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E72187F31D1AF0A000379333 /* main.m */; };
 		E72187F71D1AF0A000379333 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E72187F61D1AF0A000379333 /* AppDelegate.m */; };
 		E72187FA1D1AF0A000379333 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E72187F91D1AF0A000379333 /* ViewController.m */; };
@@ -31,6 +34,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E702B1791E49B438003E8962 /* UILabel+AddUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+AddUtils.h"; sourceTree = "<group>"; };
+		E702B17A1E49B438003E8962 /* UILabel+AddUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+AddUtils.m"; sourceTree = "<group>"; };
+		E702B17C1E49C845003E8962 /* CustomTableViewCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCellModel.h; sourceTree = "<group>"; };
+		E702B17D1E49C845003E8962 /* CustomTableViewCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCellModel.m; sourceTree = "<group>"; };
+		E702B17F1E4A1073003E8962 /* FBLineSpaceMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBLineSpaceMaker.h; sourceTree = "<group>"; };
+		E702B1801E4A1073003E8962 /* FBLineSpaceMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBLineSpaceMaker.m; sourceTree = "<group>"; };
 		E72187EF1D1AF0A000379333 /* FastBuildCell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastBuildCell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E72187F31D1AF0A000379333 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E72187F51D1AF0A000379333 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -93,6 +102,8 @@
 		E72187E61D1AF0A000379333 = {
 			isa = PBXGroup;
 			children = (
+				E702B1791E49B438003E8962 /* UILabel+AddUtils.h */,
+				E702B17A1E49B438003E8962 /* UILabel+AddUtils.m */,
 				E72188121D1AF3FC00379333 /* Masonry */,
 				E72188091D1AF0E700379333 /* FastBuildCategory */,
 				E72187F11D1AF0A000379333 /* FastBuildCell */,
@@ -111,6 +122,8 @@
 		E72187F11D1AF0A000379333 /* FastBuildCell */ = {
 			isa = PBXGroup;
 			children = (
+				E702B17C1E49C845003E8962 /* CustomTableViewCellModel.h */,
+				E702B17D1E49C845003E8962 /* CustomTableViewCellModel.m */,
 				E721883D1D1AFAF100379333 /* CustomTableViewCell.h */,
 				E721883E1D1AFAF100379333 /* CustomTableViewCell.m */,
 				E72187F51D1AF0A000379333 /* AppDelegate.h */,
@@ -202,6 +215,8 @@
 			children = (
 				E721883A1D1AF65700379333 /* NSObject+FastBuild.h */,
 				E721883B1D1AF65700379333 /* NSObject+FastBuild.m */,
+				E702B17F1E4A1073003E8962 /* FBLineSpaceMaker.h */,
+				E702B1801E4A1073003E8962 /* FBLineSpaceMaker.m */,
 			);
 			path = cellModel;
 			sourceTree = "<group>";
@@ -237,6 +252,8 @@
 				TargetAttributes = {
 					E72187EE1D1AF0A000379333 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 4367865XZN;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -276,10 +293,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E702B17E1E49C845003E8962 /* CustomTableViewCellModel.m in Sources */,
 				E72188331D1AF3FC00379333 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				E721880E1D1AF14D00379333 /* UITableView+FastBuild.m in Sources */,
+				E702B17B1E49B438003E8962 /* UILabel+AddUtils.m in Sources */,
 				E72188311D1AF3FC00379333 /* MASViewConstraint.m in Sources */,
 				E721883C1D1AF65700379333 /* NSObject+FastBuild.m in Sources */,
+				E702B1811E4A1073003E8962 /* FBLineSpaceMaker.m in Sources */,
 				E72188111D1AF2BE00379333 /* UITableViewCell+FastBuild.m in Sources */,
 				E72187FA1D1AF0A000379333 /* ViewController.m in Sources */,
 				E72187F71D1AF0A000379333 /* AppDelegate.m in Sources */,
@@ -405,11 +425,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 4367865XZN;
 				INFOPLIST_FILE = FastBuildCell/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bjhl.FastBuildCell;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "ab6f7cf3-d32c-4096-b4fa-3322377d24e2";
+				PROVISIONING_PROFILE_SPECIFIER = "common-dev";
 			};
 			name = Debug;
 		};
@@ -417,6 +440,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = FastBuildCell/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

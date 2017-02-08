@@ -117,7 +117,7 @@
     //    CGFloat cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
     //    return cellHeight;
     
-    return cell.heightAfterInitialization;
+    return cell.fb_heightAfterInitialization;
 }
 
 #pragma mark - - header footer

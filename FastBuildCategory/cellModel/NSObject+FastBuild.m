@@ -17,9 +17,60 @@
 @property (nonatomic, strong) NSMutableDictionary* cellClassStorage;
 @property (nonatomic, strong) NSMutableDictionary* reuseIdentifierStorage;
 
+@property (nonatomic, readonly) NSMutableDictionary* fb_lgl_lsMakerMapper;
+
 @end
 
 @implementation NSObject (FastBuild)
+
+- (void)setFb_lineSpace:(CGFloat)fb_lineSpace
+{
+    SEL keySel = @selector(fb_lineSpace);
+    NSString* keyStr = NSStringFromSelector(keySel);
+    [self willChangeValueForKey:keyStr];
+    objc_setAssociatedObject(self, keySel, @(fb_lineSpace), OBJC_ASSOCIATION_COPY);
+    [self didChangeValueForKey:keyStr];
+}
+
+- (CGFloat)fb_lineSpace
+{
+    return [objc_getAssociatedObject(self, _cmd) floatValue];
+}
+
+- (FBLineSpaceMaker *(^)(NSString *))fb_lsMakerForKey
+{
+    FBLineSpaceMaker *(^lsForKeyBlock)(NSString *)  = objc_getAssociatedObject(self, _cmd);
+    if (!lsForKeyBlock) {
+        __weak typeof(self) ws = self;
+        lsForKeyBlock = ^FBLineSpaceMaker*(NSString* key) {
+            FBLineSpaceMaker* maker = [ws.fb_lgl_lsMakerMapper valueForKey:key];
+            if (!maker) {
+                maker = [FBLineSpaceMaker new];
+                [ws.fb_lgl_lsMakerMapper setValue:maker forKey:key];
+            }
+            return maker;
+        };
+        objc_setAssociatedObject(self, _cmd, lsForKeyBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    }
+    return lsForKeyBlock;
+}
+
+- (void)fb_lsEnumerateMakersUsingBlock:(void (^)(NSString *, FBLineSpaceMaker *))block
+{
+    [self.fb_lgl_lsMakerMapper enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        block(key, obj);
+    }];
+}
+
+- (NSMutableDictionary *)fb_lgl_lsMakerMapper
+{
+    NSMutableDictionary* mDic = objc_getAssociatedObject(self, _cmd);
+    if (!mDic) {
+        mDic = [NSMutableDictionary dictionaryWithCapacity:2];
+        objc_setAssociatedObject(self, _cmd, mDic, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    return mDic;
+}
 
 #pragma mark - - model配置
 - (void)configReuseCellClass:(Class)reuseCellClass andIdentifier:(NSString *)reuseIdentifier inScrollView:(UIScrollView *)scrollView

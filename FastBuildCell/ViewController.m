@@ -28,8 +28,12 @@
     [self.mTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
-    
-    self.dataArray = @[@"在ios8以上系统中，存在tableView在滑动过程中会重新计算cell高度的问题。虽然可以通过设置tableView.estimatedRowHeight，以及cell的约束，让系统自动计算cell的高度，但是这种方式却并不适合ios7。",
+}
+
+- (void)getDataArray
+{
+    self.dataArray = @[
+                       @"在ios8以上系统中，存在tableView在滑动过程中会重新计算cell高度的问题。虽然可以通过设置tableView.estimatedRowHeight，以及cell的约束，让系统自动计算cell的高度，但是这种方式却并不适合ios7。",
                        @"I  该轮子可以解决以下问题：",
                        @"1，为了兼容ios7，同时考虑到在ios8以上系统中cell高度会重新计算的问题",
                        @"2，计算并缓存cell高度，提升在ios8以上系统上tableView滑动的流畅性",
@@ -50,6 +54,21 @@
                        @"后续将推出针对collectionView的快速构建功能，collectionViewCell的高度没有重复计算的问题",
                        @"headerFooter复用仍需进一步完善"
                        ];
+    
+    NSMutableArray* mArr = @[].mutableCopy;
+    for (NSString* title in self.dataArray) {
+        CustomTableViewCellModel* model = CustomTableViewCellModel.new;
+        model.title = title;
+        [mArr addObject:model];
+    }
+    self.dataArray = mArr;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self getDataArray];
+    [self.mTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,10 +78,10 @@
 
 #pragma mark - - UITableViewCacheDelegate
 // 不实现该方法，会默认使用cell缓存
-- (BOOL)tableView:(UITableView *)tableView usingHeightCacheForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return YES;
-}
+//- (BOOL)tableView:(UITableView *)tableView usingHeightCacheForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return YES;
+//}
 
 #pragma mark - - UITableViewDelegate, UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -109,7 +128,7 @@
         _mTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _mTableView.delegate = self;
         _mTableView.dataSource = self;
-        _mTableView.cacheDelegate = self;
+//        _mTableView.cacheDelegate = self;
     }
     return _mTableView;
 }
