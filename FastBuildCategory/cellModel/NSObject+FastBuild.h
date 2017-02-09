@@ -11,29 +11,27 @@
 
 @interface NSObject (FastBuild)
 
-@property (nonatomic, assign) CGFloat fb_lineSpace;
-
 @property (nonatomic, readonly) FBLineSpaceMaker* (^fb_lsMakerForKey)(NSString* key);
 - (void)fb_lsEnumerateMakersUsingBlock:(void(^)(NSString* key, FBLineSpaceMaker* maker))block;
 
 // 配置model
-- (void)configReuseCellClass:(Class)reuseCellClass andIdentifier:(NSString*)reuseIdentifier inScrollView:(UIScrollView*)scrollView;
+- (void)fb_configReuseCellClass:(Class)reuseCellClass andIdentifier:(NSString*)reuseIdentifier inScrollView:(UIScrollView*)scrollView;
 
-- (Class)reuseCellClassInScrollView:(UIScrollView*)scrollView;
-- (NSString*)reuseIdentifierInScrollView:(UIScrollView*)scrollView;
+- (Class)fb_reuseCellClassInScrollView:(UIScrollView*)scrollView;
+- (NSString*)fb_reuseIdentifierInScrollView:(UIScrollView*)scrollView;
 
 #pragma mark - - 是否使用缓存的cell高度
-- (void)useHeightCache:(BOOL)usingHeightCache inScrollView:(UIScrollView*)scrollView;
-- (BOOL)usingHeightCacheInScrollView:(UIScrollView*)scrollView;
+- (void)fb_useHeightCache:(BOOL)usingHeightCache inScrollView:(UIScrollView*)scrollView;
+- (BOOL)fb_usingHeightCacheInScrollView:(UIScrollView*)scrollView;
 
 #pragma mark - - 高度缓存
-- (void)cacheCellHeight:(CGFloat)cellHeight inScrollView:(UIScrollView*)scrollView;
+- (void)fb_cacheCellHeight:(CGFloat)cellHeight inScrollView:(UIScrollView*)scrollView;
 
 // 默认会返回-1
-- (CGFloat)cellHeightInScrollView:(UIScrollView*)scrollView;
+- (CGFloat)fb_cellHeightInScrollView:(UIScrollView*)scrollView;
 
 // 清理cell的高度缓存
-- (void)clearHeightCacheInScrollView:(UIScrollView*)scrollView;
+- (void)fb_clearHeightCacheInScrollView:(UIScrollView*)scrollView;
 
 
 @end

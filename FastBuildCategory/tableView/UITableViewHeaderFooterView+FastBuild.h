@@ -10,16 +10,16 @@
 
 @interface UITableViewHeaderFooterView (FastBuild)
 
-@property (nonatomic, readonly) CGFloat heightAfterInitialization;
+@property (nonatomic, readonly) CGFloat fb_heightAfterInitialization;
 
-- (CGFloat)heightAfterInitializationWithContentWidth:(CGFloat)contentViewWidth;
+- (CGFloat)fb_heightAfterInitializationWithContentWidth:(CGFloat)contentViewWidth;
 
-@property (nonatomic, assign) NSInteger section;
-@property (nonatomic, weak) UITableView* tableView;
+@property (nonatomic, assign) NSInteger fb_section;
+@property (nonatomic, weak) UITableView* fb_tableView;
 
-@property (nonatomic, copy) void(^didSelectBlock)(NSInteger section);
-@property (nonatomic, copy) void(^clickEventsBlock)(NSInteger section, id sender);
-@property (nonatomic, copy) void(^clickFlagEventsBlock)(NSInteger section, id sender, int flag);
+@property (nonatomic, copy) void(^fb_didSelectBlock)(NSInteger section);
+@property (nonatomic, copy) void(^fb_clickEventsBlock)(NSInteger section, id sender);
+@property (nonatomic, copy) void(^fb_clickFlagEventsBlock)(NSInteger section, id sender, int flag);
 
 @end
 

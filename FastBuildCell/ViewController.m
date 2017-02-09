@@ -46,7 +46,7 @@
                        
                        @"III  特别说明：",
                        @"1，headerFooter的高度没有重复计算的问题（转屏时会重新计算），所以不用考虑高度缓存问题",
-                       @"2，默认情况下会使用cell的高度缓存，而不是重新计算。也可以通过实现 UITableViewCacheDelegate协议的相关方法来控制是否使用缓存，或者调用model的 clearHeightCacheInScrollView:方法强行清除该model的高度缓存",
+                       @"2，默认情况下会使用cell的高度缓存，而不是重新计算。也可以通过实现 UITableViewCacheDelegate协议的相关方法来控制是否使用缓存，或者调用model的 fb_clearHeightCacheInScrollView:方法强行清除该model的高度缓存",
                        @"3，在[tableView reloadData] 的时候会清除所有cell的高度缓存",
                        @"4，缓存的高度存储在model中，以model所属cell的reuseIdentifier和tableView组成的key值进行存取",
                        
@@ -87,20 +87,20 @@
 #pragma mark - - UITableViewDelegate, UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    [tableView registerClassWithCellModels:self.dataArray modelConfigBlock:^(UITableView *tableView, id model) {
-        [model configReuseCellClass:[CustomTableViewCell class] andIdentifier:@"cellID" inScrollView:tableView];
+    [tableView fb_registerClassWithCellModels:self.dataArray modelConfigBlock:^(UITableView *tableView, id model) {
+        [model fb_configReuseCellClass:[CustomTableViewCell class] andIdentifier:@"cellID" inScrollView:tableView];
     }];
     return self.dataArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [tableView cellHeightWithCellModels:self.dataArray forIndexPath:indexPath];
+    return [tableView fb_cellHeightWithCellModels:self.dataArray forIndexPath:indexPath];
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [tableView cellWithCellModels:self.dataArray forIndexPath:indexPath];
+    return [tableView fb_cellWithCellModels:self.dataArray forIndexPath:indexPath];
 }
 
 //- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

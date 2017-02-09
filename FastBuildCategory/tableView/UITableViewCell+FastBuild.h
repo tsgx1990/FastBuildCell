@@ -22,12 +22,12 @@
 
 - (void)fb_lsResetForModel:(NSObject *)model make:(void (^)(NSObject* m))makeBlock set:(void(^)(FBLineSpaceMaker* maker))setBlock;
 
-@property (nonatomic, retain) NSIndexPath* indexPath;
-@property (nonatomic, weak) UITableView* tableView;
+@property (nonatomic, retain) NSIndexPath* fb_indexPath;
+@property (nonatomic, weak) UITableView* fb_tableView;
 
-@property (nonatomic, copy) void(^didSelectBlock)(NSIndexPath* indexPath);
-@property (nonatomic, copy) void(^clickEventsBlock)(NSIndexPath* indexPath, id sender);
-@property (nonatomic, copy) void(^clickFlagEventsBlock)(NSIndexPath* indexPath, id sender, int flag);
+@property (nonatomic, copy) void(^fb_didSelectBlock)(NSIndexPath* indexPath);
+@property (nonatomic, copy) void(^fb_clickEventsBlock)(NSIndexPath* indexPath, id sender);
+@property (nonatomic, copy) void(^fb_clickFlagEventsBlock)(NSIndexPath* indexPath, id sender, int flag);
 
 @end
 

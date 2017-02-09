@@ -11,31 +11,17 @@
 
 @interface NSObject()
 
-@property (nonatomic, strong) NSMutableDictionary* cellHeightCache;
-@property (nonatomic, strong) NSMutableDictionary* usingHeightCacheStorage;
+@property (nonatomic, retain, readonly) NSMutableDictionary* fb_lgl_pri_cellHeightCache;
+@property (nonatomic, retain, readonly) NSMutableDictionary* fb_lgl_pri_usingHeightCacheStorage;
 
-@property (nonatomic, strong) NSMutableDictionary* cellClassStorage;
-@property (nonatomic, strong) NSMutableDictionary* reuseIdentifierStorage;
+@property (nonatomic, retain, readonly) NSMutableDictionary* fb_lgl_pri_cellClassStorage;
+@property (nonatomic, retain, readonly) NSMutableDictionary* fb_lgl_pri_reuseIdentifierStorage;
 
-@property (nonatomic, readonly) NSMutableDictionary* fb_lgl_lsMakerMapper;
+@property (nonatomic, retain, readonly) NSMutableDictionary* fb_lgl_pri_lsMakerMapper;
 
 @end
 
 @implementation NSObject (FastBuild)
-
-- (void)setFb_lineSpace:(CGFloat)fb_lineSpace
-{
-    SEL keySel = @selector(fb_lineSpace);
-    NSString* keyStr = NSStringFromSelector(keySel);
-    [self willChangeValueForKey:keyStr];
-    objc_setAssociatedObject(self, keySel, @(fb_lineSpace), OBJC_ASSOCIATION_COPY);
-    [self didChangeValueForKey:keyStr];
-}
-
-- (CGFloat)fb_lineSpace
-{
-    return [objc_getAssociatedObject(self, _cmd) floatValue];
-}
 
 - (FBLineSpaceMaker *(^)(NSString *))fb_lsMakerForKey
 {
@@ -43,10 +29,10 @@
     if (!lsForKeyBlock) {
         __weak typeof(self) ws = self;
         lsForKeyBlock = ^FBLineSpaceMaker*(NSString* key) {
-            FBLineSpaceMaker* maker = [ws.fb_lgl_lsMakerMapper valueForKey:key];
+            FBLineSpaceMaker* maker = [ws.fb_lgl_pri_lsMakerMapper valueForKey:key];
             if (!maker) {
                 maker = [FBLineSpaceMaker new];
-                [ws.fb_lgl_lsMakerMapper setValue:maker forKey:key];
+                [ws.fb_lgl_pri_lsMakerMapper setValue:maker forKey:key];
             }
             return maker;
         };
@@ -57,63 +43,54 @@
 
 - (void)fb_lsEnumerateMakersUsingBlock:(void (^)(NSString *, FBLineSpaceMaker *))block
 {
-    [self.fb_lgl_lsMakerMapper enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+    [self.fb_lgl_pri_lsMakerMapper enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         block(key, obj);
     }];
 }
 
-- (NSMutableDictionary *)fb_lgl_lsMakerMapper
-{
-    NSMutableDictionary* mDic = objc_getAssociatedObject(self, _cmd);
-    if (!mDic) {
-        mDic = [NSMutableDictionary dictionaryWithCapacity:2];
-        objc_setAssociatedObject(self, _cmd, mDic, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    return mDic;
-}
-
 #pragma mark - - model配置
-- (void)configReuseCellClass:(Class)reuseCellClass andIdentifier:(NSString *)reuseIdentifier inScrollView:(UIScrollView *)scrollView
+- (void)fb_configReuseCellClass:(Class)reuseCellClass andIdentifier:(NSString *)reuseIdentifier inScrollView:(UIScrollView *)scrollView
 {
-    [self.cellClassStorage setValue:reuseCellClass forKey:[self storageKeyForScrollView:scrollView]];
-    [self.reuseIdentifierStorage setValue:reuseIdentifier forKey:[self storageKeyForScrollView:scrollView]];
+    NSString* key = [self fb_lgl_pri_storageKeyForScrollView:scrollView];
+    [self.fb_lgl_pri_cellClassStorage setValue:reuseCellClass forKey:key];
+    [self.fb_lgl_pri_reuseIdentifierStorage setValue:reuseIdentifier forKey:key];
 }
 
-- (Class)reuseCellClassInScrollView:(UIScrollView *)scrollView
+- (Class)fb_reuseCellClassInScrollView:(UIScrollView *)scrollView
 {
-    return [self.cellClassStorage objectForKey:[self storageKeyForScrollView:scrollView]];
+    return [self.fb_lgl_pri_cellClassStorage objectForKey:[self fb_lgl_pri_storageKeyForScrollView:scrollView]];
 }
 
-- (NSString*)reuseIdentifierInScrollView:(UIScrollView *)scrollView
+- (NSString*)fb_reuseIdentifierInScrollView:(UIScrollView *)scrollView
 {
-    return [self.reuseIdentifierStorage valueForKey:[self storageKeyForScrollView:scrollView]];
+    return [self.fb_lgl_pri_reuseIdentifierStorage valueForKey:[self fb_lgl_pri_storageKeyForScrollView:scrollView]];
 }
 
 #pragma mark - - 是否使用缓存的cell高度
-- (void)useHeightCache:(BOOL)usingHeightCache inScrollView:(UIScrollView *)scrollView
+- (void)fb_useHeightCache:(BOOL)usingHeightCache inScrollView:(UIScrollView *)scrollView
 {
-    NSString* key = [self cacheKeyOfScrollView:scrollView];
-    [self.usingHeightCacheStorage setValue:@(usingHeightCache) forKey:key];
+    NSString* key = [self fb_lgl_pri_cacheKeyOfScrollView:scrollView];
+    [self.fb_lgl_pri_usingHeightCacheStorage setValue:@(usingHeightCache) forKey:key];
 }
 
-- (BOOL)usingHeightCacheInScrollView:(UIScrollView *)scrollView
+- (BOOL)fb_usingHeightCacheInScrollView:(UIScrollView *)scrollView
 {
-    NSString* key = [self cacheKeyOfScrollView:scrollView];
-    NSNumber* usingObj = [self.usingHeightCacheStorage valueForKey:key];
+    NSString* key = [self fb_lgl_pri_cacheKeyOfScrollView:scrollView];
+    NSNumber* usingObj = [self.fb_lgl_pri_usingHeightCacheStorage valueForKey:key];
     return usingObj ? [usingObj boolValue] : NO;
 }
 
 #pragma mark - - 高度缓存
-- (void)cacheCellHeight:(CGFloat)cellHeight inScrollView:(UIScrollView *)scrollView
+- (void)fb_cacheCellHeight:(CGFloat)cellHeight inScrollView:(UIScrollView *)scrollView
 {
-    NSString* key = [self cacheKeyOfScrollView:scrollView];
-    [self.cellHeightCache setValue:@(cellHeight) forKey:key];
+    NSString* key = [self fb_lgl_pri_cacheKeyOfScrollView:scrollView];
+    [self.fb_lgl_pri_cellHeightCache setValue:@(cellHeight) forKey:key];
 }
 
-- (CGFloat)cellHeightInScrollView:(UIScrollView *)scrollView
+- (CGFloat)fb_cellHeightInScrollView:(UIScrollView *)scrollView
 {
-    NSString* key = [self cacheKeyOfScrollView:scrollView];
-    NSNumber* cellHeight = [self.cellHeightCache valueForKey:key];
+    NSString* key = [self fb_lgl_pri_cacheKeyOfScrollView:scrollView];
+    NSNumber* cellHeight = [self.fb_lgl_pri_cellHeightCache valueForKey:key];
     if (!cellHeight) {
         return -1;
     }
@@ -122,66 +99,72 @@
     }
 }
 
-- (void)clearHeightCacheInScrollView:(UIScrollView *)scrollView
+- (void)fb_clearHeightCacheInScrollView:(UIScrollView *)scrollView
 {
-    NSString* key = [self cacheKeyOfScrollView:scrollView];
-    [self.cellHeightCache setValue:nil forKey:key];
+    NSString* key = [self fb_lgl_pri_cacheKeyOfScrollView:scrollView];
+    [self.fb_lgl_pri_cellHeightCache setValue:nil forKey:key];
 }
 
 #pragma mark - - private
-- (NSString*)cacheKeyOfScrollView:(UIScrollView*)scrollView
+- (NSString*)fb_lgl_pri_cacheKeyOfScrollView:(UIScrollView*)scrollView
 {
-    NSString* reuseID = [self reuseIdentifierInScrollView:scrollView];
+    NSString* reuseID = [self fb_reuseIdentifierInScrollView:scrollView];
     NSString* key = [NSString stringWithFormat:@"%p-%@", scrollView, reuseID];
     return key;
 }
 
-- (NSString*)storageKeyForScrollView:(UIScrollView*)scrollView
+- (NSString*)fb_lgl_pri_storageKeyForScrollView:(UIScrollView*)scrollView
 {
     NSString* key = [NSString stringWithFormat:@"%p", scrollView];
     return key;
 }
 
-#define kCellHeightCache       @"kCellHeightCache"
-- (NSMutableDictionary *)cellHeightCache
+- (NSMutableDictionary *)fb_lgl_pri_cellHeightCache
 {
-    NSMutableDictionary* cellHeightCache = objc_getAssociatedObject(self, kCellHeightCache);
+    NSMutableDictionary* cellHeightCache = objc_getAssociatedObject(self, _cmd);
     if (!cellHeightCache) {
         cellHeightCache = [NSMutableDictionary dictionaryWithCapacity:2];
-        objc_setAssociatedObject(self, kCellHeightCache, cellHeightCache, OBJC_ASSOCIATION_RETAIN);
+        objc_setAssociatedObject(self, _cmd, cellHeightCache, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return cellHeightCache;
 }
 
-#define kUsingHeightCacheStorage    @"kUsingHeightCacheStorage"
-- (NSMutableDictionary *)usingHeightCacheStorage
+- (NSMutableDictionary *)fb_lgl_pri_usingHeightCacheStorage
 {
-    NSMutableDictionary* usingStorage = objc_getAssociatedObject(self, kUsingHeightCacheStorage);
+    NSMutableDictionary* usingStorage = objc_getAssociatedObject(self, _cmd);
     if (!usingStorage) {
         usingStorage = [NSMutableDictionary dictionaryWithCapacity:2];
-        objc_setAssociatedObject(self, kUsingHeightCacheStorage, usingStorage, OBJC_ASSOCIATION_RETAIN);
+        objc_setAssociatedObject(self, _cmd, usingStorage, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return usingStorage;
 }
 
-#define kCellClassStorage   @"kCellClassStorage"
-- (NSMutableDictionary *)cellClassStorage
+- (NSMutableDictionary *)fb_lgl_pri_cellClassStorage
 {
-    NSMutableDictionary* mDic = objc_getAssociatedObject(self, kCellClassStorage);
+    NSMutableDictionary* mDic = objc_getAssociatedObject(self, _cmd);
     if (!mDic) {
         mDic = [NSMutableDictionary dictionaryWithCapacity:6];
-        objc_setAssociatedObject(self, kCellClassStorage, mDic, OBJC_ASSOCIATION_RETAIN);
+        objc_setAssociatedObject(self, _cmd, mDic, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return mDic;
 }
 
-#define kReuseIdentifierStorage     @"kReuseIdentifierStorage"
-- (NSMutableDictionary *)reuseIdentifierStorage
+- (NSMutableDictionary *)fb_lgl_pri_reuseIdentifierStorage
 {
-    NSMutableDictionary* mDic = objc_getAssociatedObject(self, kReuseIdentifierStorage);
+    NSMutableDictionary* mDic = objc_getAssociatedObject(self, _cmd);
     if (!mDic) {
         mDic = [NSMutableDictionary dictionaryWithCapacity:6];
-        objc_setAssociatedObject(self, kReuseIdentifierStorage, mDic, OBJC_ASSOCIATION_RETAIN);
+        objc_setAssociatedObject(self, _cmd, mDic, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    return mDic;
+}
+
+- (NSMutableDictionary *)fb_lgl_pri_lsMakerMapper
+{
+    NSMutableDictionary* mDic = objc_getAssociatedObject(self, _cmd);
+    if (!mDic) {
+        mDic = [NSMutableDictionary dictionaryWithCapacity:2];
+        objc_setAssociatedObject(self, _cmd, mDic, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return mDic;
 }

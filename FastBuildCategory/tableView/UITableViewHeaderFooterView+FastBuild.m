@@ -11,7 +11,7 @@
 
 @implementation UITableViewHeaderFooterView (FastBuild)
 
-- (CGFloat)heightAfterInitialization
+- (CGFloat)fb_heightAfterInitialization
 {
     CGFloat contentWidth = 0;
     if ([self respondsToSelector:@selector(headerFooterContentViewWidth)]) {
@@ -40,27 +40,26 @@
                 break;
         }
     }
-    return [self heightAfterInitializationWithContentWidth:contentWidth];
+    return [self fb_heightAfterInitializationWithContentWidth:contentWidth];
 }
 
-- (CGFloat)heightAfterInitializationWithContentWidth:(CGFloat)contentViewWidth
+- (CGFloat)fb_heightAfterInitializationWithContentWidth:(CGFloat)contentViewWidth
 {
-    [self lgl_remakeConstraitsWithContentWidth:contentViewWidth];
+    [self fb_lgl_pri_remakeConstraitsWithContentWidth:contentViewWidth];
     [self layoutIfNeeded];
     CGFloat hfHeight = [self.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
     return hfHeight;
 }
 
-- (void)lgl_remakeConstraitsWithContentWidth:(CGFloat)contentViewWidth
+- (void)fb_lgl_pri_remakeConstraitsWithContentWidth:(CGFloat)contentViewWidth
 {
     CGFloat sysVersion = [[UIDevice currentDevice].systemVersion floatValue];
     self.contentView.translatesAutoresizingMaskIntoConstraints = (sysVersion > 9.9);
-    
-    [self lgl_tryAddWidthConstraintWithContentWidth:contentViewWidth];
-    [self lgl_tryAddHeightConstraint];
+    [self fb_lgl_pri_tryAddWidthConstraintWithContentWidth:contentViewWidth];
+    [self fb_lgl_pri_tryAddHeightConstraint];
 }
 
-- (void)lgl_tryAddWidthConstraintWithContentWidth:(CGFloat)contentViewWidth
+- (void)fb_lgl_pri_tryAddWidthConstraintWithContentWidth:(CGFloat)contentViewWidth
 {
     CGFloat sysVersion = [[UIDevice currentDevice].systemVersion floatValue];
     NSLayoutConstraint* widthConstraint = objc_getAssociatedObject(self, __func__);
@@ -100,7 +99,7 @@
     }
 }
 
-- (void)lgl_tryAddHeightConstraint
+- (void)fb_lgl_pri_tryAddHeightConstraint
 {
     CGFloat sysVersion = [[UIDevice currentDevice].systemVersion floatValue];
     NSLayoutConstraint* heightConstraint = objc_getAssociatedObject(self, __func__);
@@ -127,59 +126,54 @@
     }
 }
 
-#define kSection    @"kSection"
-- (void)setSection:(NSInteger)section_
+- (void)setFb_section:(NSInteger)fb_section
 {
-    objc_setAssociatedObject(self, kSection, @(section_), OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @selector(fb_section), @(fb_section), OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
-- (NSInteger)section
+- (NSInteger)fb_section
 {
-    return [objc_getAssociatedObject(self, kSection) integerValue];
+    return [objc_getAssociatedObject(self, _cmd) integerValue];
 }
 
-#define kTableView @"kTableView"
-- (void)setTableView:(UITableView *)tableView_
+- (void)setFb_tableView:(UITableView *)fb_tableView
 {
-    objc_setAssociatedObject(self, kTableView, tableView_, OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @selector(fb_tableView), fb_tableView, OBJC_ASSOCIATION_ASSIGN);
 }
 
-- (UITableView *)tableView
+- (UITableView *)fb_tableView
 {
-    return objc_getAssociatedObject(self, kTableView);
+    return objc_getAssociatedObject(self, _cmd);
 }
 
-#define kDidSelectBlock     @"kDidSelectBlock"
-- (void)setDidSelectBlock:(void (^)(NSInteger))didSelectBlock_
+- (void)setFb_didSelectBlock:(void (^)(NSInteger))fb_didSelectBlock
 {
-    objc_setAssociatedObject(self, kDidSelectBlock, didSelectBlock_, OBJC_ASSOCIATION_COPY);
+    objc_setAssociatedObject(self, @selector(fb_didSelectBlock), fb_didSelectBlock, OBJC_ASSOCIATION_COPY);
 }
 
-- (void (^)(NSInteger))didSelectBlock
+- (void (^)(NSInteger))fb_didSelectBlock
 {
-    return objc_getAssociatedObject(self, kDidSelectBlock);
+    return objc_getAssociatedObject(self, _cmd);
 }
 
-#define kClickEventsBlock   @"kClickEventsBlock"
-- (void)setClickEventsBlock:(void (^)(NSInteger, id))clickEventsBlock_
+- (void)setFb_clickEventsBlock:(void (^)(NSInteger, id))fb_clickEventsBlock
 {
-    objc_setAssociatedObject(self, kClickEventsBlock, clickEventsBlock_, OBJC_ASSOCIATION_COPY);
+    objc_setAssociatedObject(self, @selector(fb_clickEventsBlock), fb_clickEventsBlock, OBJC_ASSOCIATION_COPY);
 }
 
-- (void (^)(NSInteger, id))clickEventsBlock
+- (void (^)(NSInteger, id))fb_clickEventsBlock
 {
-    return objc_getAssociatedObject(self, kClickEventsBlock);
+    return objc_getAssociatedObject(self, _cmd);
 }
 
-#define kClickFlagEventsBlock   @"kClickFlagEventsBlock"
-- (void)setClickFlagEventsBlock:(void (^)(NSInteger, id, int))clickFlagEventsBlock_
+- (void)setFb_clickFlagEventsBlock:(void (^)(NSInteger, id, int))fb_clickFlagEventsBlock
 {
-    objc_setAssociatedObject(self, kClickFlagEventsBlock, clickFlagEventsBlock_, OBJC_ASSOCIATION_COPY);
+    objc_setAssociatedObject(self, @selector(fb_clickFlagEventsBlock), fb_clickFlagEventsBlock, OBJC_ASSOCIATION_COPY);
 }
 
-- (void (^)(NSInteger, id, int))clickFlagEventsBlock
+- (void (^)(NSInteger, id, int))fb_clickFlagEventsBlock
 {
-    return objc_getAssociatedObject(self, kClickFlagEventsBlock);
+    return objc_getAssociatedObject(self, _cmd);
 }
 
 @end
