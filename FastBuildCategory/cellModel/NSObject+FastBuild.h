@@ -13,7 +13,7 @@
 
 @property (nonatomic, assign) CGFloat fb_lineSpace;
 
-@property (nonatomic, copy) FBLineSpaceMaker* (^fb_lsMakerForKey)(NSString* key);
+@property (nonatomic, readonly) FBLineSpaceMaker* (^fb_lsMakerForKey)(NSString* key);
 - (void)fb_lsEnumerateMakersUsingBlock:(void(^)(NSString* key, FBLineSpaceMaker* maker))block;
 
 // 配置model

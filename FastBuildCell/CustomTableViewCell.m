@@ -76,6 +76,7 @@
 {
     CGFloat ls = model.fb_lsMakerForKey(@"").lineSpace;
     [self.titleLbl xtt_asyncSetText:model.title lineSpace:ls complete:nil];
+//    [self.titleLbl xtt_setText:model.title lineSpace:ls];
     return self;
 }
 

@@ -16,9 +16,43 @@
 
 @property (nonatomic, strong) NSCache* calCellCache;
 
+@property (nonatomic, assign) UIInterfaceOrientation fb_lgl_private_currentOrientation;
+@property (nonatomic, assign) BOOL fb_lgl_private_tmpKeepHeightCache;
+
 @end
 
 @implementation UITableView (FastBuild)
+
++ (void)load
+{
+    method_exchangeImplementations(class_getInstanceMethod(self.class, @selector(layoutSubviews)),
+                                   class_getInstanceMethod(self.class, @selector(fb_lgl_private_layoutSubviews)));
+}
+
+- (void)fb_lgl_private_layoutSubviews
+{
+    [self fb_lgl_private_layoutSubviews];
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    if (self.fb_lgl_private_currentOrientation != UIInterfaceOrientationUnknown) {
+        if (self.fb_lgl_private_currentOrientation != orientation) {
+            // 因为转屏时，cell的高度会重新计算好，所以在 reloadRowsAtIndexPat... 时不需要重新计算cell高度
+            self.fb_lgl_private_tmpKeepHeightCache = YES;
+            [self reloadRowsAtIndexPaths:self.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationNone];
+            self.fb_lgl_private_tmpKeepHeightCache = NO;
+        }
+    }
+    self.fb_lgl_private_currentOrientation = orientation;
+}
+
+- (void)setFb_lgl_private_tmpKeepHeightCache:(BOOL)fb_lgl_private_tmpKeepHeightCache
+{
+    objc_setAssociatedObject(self, @selector(fb_lgl_private_tmpKeepHeightCache), @(fb_lgl_private_tmpKeepHeightCache), OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (BOOL)fb_lgl_private_tmpKeepHeightCache
+{
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
 
 #define kCacheDelegate      @"kCacheDelegate"
 - (void)setCacheDelegate:(id<UITableViewCacheDelegate>)cacheDelegate_
@@ -97,6 +131,20 @@
     }
 }
 
+- (void)setFb_lgl_private_currentOrientation:(UIInterfaceOrientation)fb_lgl_private_currentOrientation
+{
+    objc_setAssociatedObject(self, @selector(fb_lgl_private_currentOrientation), @(fb_lgl_private_currentOrientation), OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (UIInterfaceOrientation)fb_lgl_private_currentOrientation
+{
+    NSNumber* currentOrientation = objc_getAssociatedObject(self, _cmd);
+    if (!currentOrientation) {
+        return UIInterfaceOrientationUnknown;
+    }
+    return currentOrientation.integerValue;
+}
+
 #pragma mark - - private
 
 #pragma mark - - cell
@@ -112,10 +160,10 @@
 
 - (CGFloat)heightForCell:(UITableViewCell*)cell
 {
-    //    [cell layoutIfNeeded]; // 在ios7中必须有
-    //    [cell.contentView layoutIfNeeded];
-    //    CGFloat cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
-    //    return cellHeight;
+//    [cell layoutIfNeeded]; // 在ios7中必须有
+//    [cell.contentView layoutIfNeeded];
+//    CGFloat cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+//    return cellHeight;
     
     return cell.fb_heightAfterInitialization;
 }
@@ -133,9 +181,9 @@
 
 - (CGFloat)heightForHeaderFooter:(UITableViewHeaderFooterView*)hfView
 {
-    //    [hfView.contentView layoutIfNeeded];
-    //    CGFloat hfHeight = [hfView.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
-    //    return hfHeight;
+//    [hfView.contentView layoutIfNeeded];
+//    CGFloat hfHeight = [hfView.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+//    return hfHeight;
     
     return [hfView heightAfterInitialization];
 }
@@ -163,7 +211,9 @@
 {
     for (id model in cellModels) {
         configBlock(self, model);
-        [model clearHeightCacheInScrollView:self]; // tabelView重新加载时默认清空高度缓存
+        if (self.fb_lgl_private_tmpKeepHeightCache) {
+            [model clearHeightCacheInScrollView:self]; // tabelView重新加载时默认清空高度缓存
+        }
         [model useHeightCache:YES inScrollView:self]; // 默认情况下使用高度缓存
         Class modelCellClass = [model reuseCellClassInScrollView:self];
         NSString* modelCellID = [model reuseIdentifierInScrollView:self];
