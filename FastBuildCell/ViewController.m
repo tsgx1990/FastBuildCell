@@ -59,6 +59,7 @@
     for (NSString* title in self.dataArray) {
         CustomTableViewCellModel* model = CustomTableViewCellModel.new;
         model.title = title;
+        model.subTitle = [title substringFromIndex:title.length*0.3];
         [mArr addObject:model];
     }
     self.dataArray = mArr;

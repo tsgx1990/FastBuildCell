@@ -13,6 +13,7 @@
 @interface CustomTableViewCell()
 
 @property (nonatomic, strong) UILabel* titleLbl;
+@property (nonatomic, strong) UILabel* subTitleLbl;
 @property (nonatomic, strong) UIImageView* imgView;
 
 @end
@@ -23,16 +24,22 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self.contentView addSubview:self.titleLbl];
+        [self.contentView addSubview:self.subTitleLbl];
         [self.contentView addSubview:self.imgView];
         [self.titleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(10);
             make.right.mas_equalTo(-10);
             make.top.mas_equalTo(10);
         }];
+        [self.subTitleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.titleLbl.mas_left);
+            make.right.equalTo(self.titleLbl.mas_right);
+            make.top.equalTo(self.titleLbl.mas_bottom).offset(20);
+        }];
         [self.imgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(10);
-            make.top.equalTo(_titleLbl.mas_bottom).offset(10);
-            make.bottom.mas_equalTo(-5);
+            make.top.equalTo(self.subTitleLbl.mas_bottom).offset(10);
+            make.bottom.mas_equalTo(-10);
             make.size.mas_equalTo(40);
         }];
     }
@@ -50,6 +57,17 @@
     return _titleLbl;
 }
 
+- (UILabel *)subTitleLbl
+{
+    if (!_subTitleLbl) {
+        _subTitleLbl = [UILabel new];
+        _subTitleLbl.backgroundColor = [UIColor cyanColor];
+        _subTitleLbl.numberOfLines = 0;
+        _subTitleLbl.font = [UIFont systemFontOfSize:16];
+    }
+    return _subTitleLbl;
+}
+
 - (UIImageView*)imgView
 {
     if (!_imgView) {
@@ -62,10 +80,16 @@
 - (CGFloat)cellHeightWithInfo:(CustomTableViewCellModel*)model
 {
     [self fb_lsResetForModel:model make:^(NSObject *m) {
-        m.fb_lsMakerForKey(@"")
+        
+        m.fb_lsMakerForKey(@"1")
         .setLabel(self.titleLbl)
         .setTitle(model.title)
         .setLineSpace(18);
+        m.fb_lsMakerForKey(@"2")
+        .setLabel(self.subTitleLbl)
+        .setTitle(model.subTitle)
+        .setLineSpace(8);
+        
     } set:^(FBLineSpaceMaker *maker) {
         [maker.label xtt_setText:maker.title lineSpace:maker.lineSpace];
     }];
@@ -74,9 +98,13 @@
 
 - (instancetype)cellWithInfo:(CustomTableViewCellModel*)model
 {
-    CGFloat ls = model.fb_lsMakerForKey(@"").lineSpace;
-    [self.titleLbl xtt_asyncSetText:model.title lineSpace:ls complete:nil];
+    CGFloat ls1 = model.fb_lsMakerForKey(@"1").lineSpace;
+    [self.titleLbl xtt_asyncSetText:model.title lineSpace:ls1 complete:nil];
 //    [self.titleLbl xtt_setText:model.title lineSpace:ls];
+    
+    CGFloat ls2 = model.fb_lsMakerForKey(@"2").lineSpace;
+    [self.subTitleLbl xtt_asyncSetText:model.subTitle lineSpace:ls2 complete:nil];
+    
     return self;
 }
 
