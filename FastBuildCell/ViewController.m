@@ -133,5 +133,9 @@
     return _mTableView;
 }
 
+- (void)dealloc
+{
+    
+}
 
 @end

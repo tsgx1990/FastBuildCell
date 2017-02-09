@@ -10,4 +10,9 @@
 
 @implementation CustomTableViewCellModel
 
+- (void)dealloc
+{
+    
+}
+
 @end

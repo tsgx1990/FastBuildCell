@@ -10,6 +10,7 @@
 		E702B17B1E49B438003E8962 /* UILabel+AddUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B17A1E49B438003E8962 /* UILabel+AddUtils.m */; };
 		E702B17E1E49C845003E8962 /* CustomTableViewCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B17D1E49C845003E8962 /* CustomTableViewCellModel.m */; };
 		E702B1811E4A1073003E8962 /* FBLineSpaceMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B1801E4A1073003E8962 /* FBLineSpaceMaker.m */; };
+		E702B1841E4C5187003E8962 /* ViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B1831E4C5187003E8962 /* ViewController1.m */; };
 		E72187F41D1AF0A000379333 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E72187F31D1AF0A000379333 /* main.m */; };
 		E72187F71D1AF0A000379333 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E72187F61D1AF0A000379333 /* AppDelegate.m */; };
 		E72187FA1D1AF0A000379333 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E72187F91D1AF0A000379333 /* ViewController.m */; };
@@ -40,6 +41,8 @@
 		E702B17D1E49C845003E8962 /* CustomTableViewCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCellModel.m; sourceTree = "<group>"; };
 		E702B17F1E4A1073003E8962 /* FBLineSpaceMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBLineSpaceMaker.h; sourceTree = "<group>"; };
 		E702B1801E4A1073003E8962 /* FBLineSpaceMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBLineSpaceMaker.m; sourceTree = "<group>"; };
+		E702B1821E4C5187003E8962 /* ViewController1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController1.h; sourceTree = "<group>"; };
+		E702B1831E4C5187003E8962 /* ViewController1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController1.m; sourceTree = "<group>"; };
 		E72187EF1D1AF0A000379333 /* FastBuildCell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastBuildCell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E72187F31D1AF0A000379333 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E72187F51D1AF0A000379333 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -130,6 +133,8 @@
 				E72187F61D1AF0A000379333 /* AppDelegate.m */,
 				E72187F81D1AF0A000379333 /* ViewController.h */,
 				E72187F91D1AF0A000379333 /* ViewController.m */,
+				E702B1821E4C5187003E8962 /* ViewController1.h */,
+				E702B1831E4C5187003E8962 /* ViewController1.m */,
 				E72187FB1D1AF0A000379333 /* Main.storyboard */,
 				E72187FE1D1AF0A000379333 /* Assets.xcassets */,
 				E72188001D1AF0A000379333 /* LaunchScreen.storyboard */,
@@ -311,6 +316,7 @@
 				E72188351D1AF3FC00379333 /* ViewController+MASAdditions.m in Sources */,
 				E721882D1D1AF3FC00379333 /* MASConstraint.m in Sources */,
 				E721883F1D1AFAF100379333 /* CustomTableViewCell.m in Sources */,
+				E702B1841E4C5187003E8962 /* ViewController1.m in Sources */,
 				E721882F1D1AF3FC00379333 /* MASLayoutConstraint.m in Sources */,
 				E72187F41D1AF0A000379333 /* main.m in Sources */,
 				E72188381D1AF46700379333 /* UITableViewHeaderFooterView+FastBuild.m in Sources */,
