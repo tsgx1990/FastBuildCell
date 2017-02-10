@@ -112,15 +112,28 @@
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     if (self.fb_lgl_pri_currentOrientation != UIInterfaceOrientationUnknown) {
         if (self.fb_lgl_pri_currentOrientation != orientation) {
-            // 因为转屏时，cell的高度会重新计算好，所以在 reloadRowsAtIndexPat... 时不需要重新计算cell高度
-            self.fb_lgl_pri_tmpKeepHeightCache = YES;
-            NSIndexPath* selectedIndexPath = self.indexPathForSelectedRow;
-            [self reloadRowsAtIndexPaths:self.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationNone];
-            [self selectRowAtIndexPath:selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-            self.fb_lgl_pri_tmpKeepHeightCache = NO;
+            
+            // ios10 延时reload是为了防止转屏等待时间过长（计算cell高度耗时）
+            CGFloat sysVersion = [[UIDevice currentDevice].systemVersion floatValue];
+            if (sysVersion > 9.9) {
+                [self performSelector:@selector(fb_lgl_pri_reloadWhenRotation) withObject:nil afterDelay:0 inModes:@[NSRunLoopCommonModes]];
+            }
+            else {
+                [self fb_lgl_pri_reloadWhenRotation];
+            }
         }
     }
     self.fb_lgl_pri_currentOrientation = orientation;
+}
+
+- (void)fb_lgl_pri_reloadWhenRotation
+{
+    // 因为转屏时，cell的高度会重新计算好，所以在 reloadRowsAtIndexPat... 时不需要重新计算cell高度
+    self.fb_lgl_pri_tmpKeepHeightCache = YES;
+    NSIndexPath* selectedIndexPath = self.indexPathForSelectedRow;
+    [self reloadRowsAtIndexPaths:self.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationNone];
+    [self selectRowAtIndexPath:selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    self.fb_lgl_pri_tmpKeepHeightCache = NO;
 }
 
 - (void)setFb_lgl_pri_tmpKeepHeightCache:(BOOL)fb_lgl_pri_tmpKeepHeightCache

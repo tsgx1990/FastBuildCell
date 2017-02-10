@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CustomTableHeaderModel.h"
 
 @interface CustomTableViewCellModel : NSObject
 
 @property (nonatomic, copy) NSString* title;
 @property (nonatomic, copy) NSString* subTitle;
+@property (nonatomic, retain) CustomTableHeaderModel* headerModel;
 
 @end

@@ -7,42 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NSObject+FastBuild.h"
+#import "UIView+FastBuild.h"
 
 @interface UITableViewCell (FastBuild)
-
-
-@property (nonatomic, readonly) CGFloat fb_heightAfterInitialization;
-
-- (CGFloat)fb_heightAfterInitializationWithContentWidth:(CGFloat)contentViewWidth;
-
-- (void)fb_layoutAfterInitialization;
-
-- (void)fb_layoutAfterInitializationWithContentWidth:(CGFloat)contentViewWidth;
-
-- (void)fb_lsResetForModel:(NSObject *)model make:(void (^)(NSObject* m))makeBlock set:(void(^)(FBLineSpaceMaker* maker))setBlock;
 
 @property (nonatomic, retain) NSIndexPath* fb_indexPath;
 @property (nonatomic, weak) UITableView* fb_tableView;
 
-@property (nonatomic, copy) void(^fb_didSelectBlock)(NSIndexPath* indexPath);
-@property (nonatomic, copy) void(^fb_clickEventsBlock)(NSIndexPath* indexPath, id sender);
-@property (nonatomic, copy) void(^fb_clickFlagEventsBlock)(NSIndexPath* indexPath, id sender, int flag);
-
 @end
 
-
+// should maybe overrided
 @interface UITableViewCell()
 
 - (instancetype)cellWithInfo:(id)info;
 
 - (CGFloat)cellHeightWithInfo:(id)info;
-
-// 在计算高度时指定contentView的宽度约束，不指定的话，将根据横屏或竖屏确定contentView的宽度
-@property (nonatomic) CGFloat cellContentViewWidth;
-
-// 在计算高度时制定contentView距左右的总边距，不指定的话，将根据横屏或竖屏确定contentView的宽度
-@property (nonatomic) CGFloat cellContentViewHorizonMargin;
-@property (nonatomic) CGFloat cellContentViewVerticalMargin;
 
 @end

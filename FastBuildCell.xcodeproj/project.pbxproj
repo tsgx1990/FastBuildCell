@@ -11,6 +11,9 @@
 		E702B17E1E49C845003E8962 /* CustomTableViewCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B17D1E49C845003E8962 /* CustomTableViewCellModel.m */; };
 		E702B1811E4A1073003E8962 /* FBLineSpaceMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B1801E4A1073003E8962 /* FBLineSpaceMaker.m */; };
 		E702B1841E4C5187003E8962 /* ViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B1831E4C5187003E8962 /* ViewController1.m */; };
+		E702B1871E4C9174003E8962 /* CustomTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B1861E4C9174003E8962 /* CustomTableHeaderView.m */; };
+		E702B18A1E4C9903003E8962 /* CustomTableHeaderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B1891E4C9903003E8962 /* CustomTableHeaderModel.m */; };
+		E702B18D1E4D556D003E8962 /* UIView+FastBuild.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B18C1E4D556D003E8962 /* UIView+FastBuild.m */; };
 		E72187F41D1AF0A000379333 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E72187F31D1AF0A000379333 /* main.m */; };
 		E72187F71D1AF0A000379333 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E72187F61D1AF0A000379333 /* AppDelegate.m */; };
 		E72187FA1D1AF0A000379333 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E72187F91D1AF0A000379333 /* ViewController.m */; };
@@ -43,6 +46,12 @@
 		E702B1801E4A1073003E8962 /* FBLineSpaceMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBLineSpaceMaker.m; sourceTree = "<group>"; };
 		E702B1821E4C5187003E8962 /* ViewController1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController1.h; sourceTree = "<group>"; };
 		E702B1831E4C5187003E8962 /* ViewController1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController1.m; sourceTree = "<group>"; };
+		E702B1851E4C9174003E8962 /* CustomTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableHeaderView.h; sourceTree = "<group>"; };
+		E702B1861E4C9174003E8962 /* CustomTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableHeaderView.m; sourceTree = "<group>"; };
+		E702B1881E4C9903003E8962 /* CustomTableHeaderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableHeaderModel.h; sourceTree = "<group>"; };
+		E702B1891E4C9903003E8962 /* CustomTableHeaderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableHeaderModel.m; sourceTree = "<group>"; };
+		E702B18B1E4D556D003E8962 /* UIView+FastBuild.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FastBuild.h"; sourceTree = "<group>"; };
+		E702B18C1E4D556D003E8962 /* UIView+FastBuild.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FastBuild.m"; sourceTree = "<group>"; };
 		E72187EF1D1AF0A000379333 /* FastBuildCell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastBuildCell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E72187F31D1AF0A000379333 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E72187F51D1AF0A000379333 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -129,6 +138,10 @@
 				E702B17D1E49C845003E8962 /* CustomTableViewCellModel.m */,
 				E721883D1D1AFAF100379333 /* CustomTableViewCell.h */,
 				E721883E1D1AFAF100379333 /* CustomTableViewCell.m */,
+				E702B1881E4C9903003E8962 /* CustomTableHeaderModel.h */,
+				E702B1891E4C9903003E8962 /* CustomTableHeaderModel.m */,
+				E702B1851E4C9174003E8962 /* CustomTableHeaderView.h */,
+				E702B1861E4C9174003E8962 /* CustomTableHeaderView.m */,
 				E72187F51D1AF0A000379333 /* AppDelegate.h */,
 				E72187F61D1AF0A000379333 /* AppDelegate.m */,
 				E72187F81D1AF0A000379333 /* ViewController.h */,
@@ -173,6 +186,8 @@
 		E721880B1D1AF11100379333 /* tableView */ = {
 			isa = PBXGroup;
 			children = (
+				E702B18B1E4D556D003E8962 /* UIView+FastBuild.h */,
+				E702B18C1E4D556D003E8962 /* UIView+FastBuild.m */,
 				E721880C1D1AF14D00379333 /* UITableView+FastBuild.h */,
 				E721880D1D1AF14D00379333 /* UITableView+FastBuild.m */,
 				E721880F1D1AF2BE00379333 /* UITableViewCell+FastBuild.h */,
@@ -306,16 +321,19 @@
 				E721883C1D1AF65700379333 /* NSObject+FastBuild.m in Sources */,
 				E702B1811E4A1073003E8962 /* FBLineSpaceMaker.m in Sources */,
 				E72188111D1AF2BE00379333 /* UITableViewCell+FastBuild.m in Sources */,
+				E702B18A1E4C9903003E8962 /* CustomTableHeaderModel.m in Sources */,
 				E72187FA1D1AF0A000379333 /* ViewController.m in Sources */,
 				E72187F71D1AF0A000379333 /* AppDelegate.m in Sources */,
 				E72188341D1AF3FC00379333 /* View+MASAdditions.m in Sources */,
 				E721882C1D1AF3FC00379333 /* MASCompositeConstraint.m in Sources */,
+				E702B1871E4C9174003E8962 /* CustomTableHeaderView.m in Sources */,
 				E72188301D1AF3FC00379333 /* MASViewAttribute.m in Sources */,
 				E721882E1D1AF3FC00379333 /* MASConstraintMaker.m in Sources */,
 				E72188321D1AF3FC00379333 /* NSArray+MASAdditions.m in Sources */,
 				E72188351D1AF3FC00379333 /* ViewController+MASAdditions.m in Sources */,
 				E721882D1D1AF3FC00379333 /* MASConstraint.m in Sources */,
 				E721883F1D1AFAF100379333 /* CustomTableViewCell.m in Sources */,
+				E702B18D1E4D556D003E8962 /* UIView+FastBuild.m in Sources */,
 				E702B1841E4C5187003E8962 /* ViewController1.m in Sources */,
 				E721882F1D1AF3FC00379333 /* MASLayoutConstraint.m in Sources */,
 				E72187F41D1AF0A000379333 /* main.m in Sources */,
