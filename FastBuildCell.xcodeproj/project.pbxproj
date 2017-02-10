@@ -14,6 +14,8 @@
 		E702B1871E4C9174003E8962 /* CustomTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B1861E4C9174003E8962 /* CustomTableHeaderView.m */; };
 		E702B18A1E4C9903003E8962 /* CustomTableHeaderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B1891E4C9903003E8962 /* CustomTableHeaderModel.m */; };
 		E702B18D1E4D556D003E8962 /* UIView+FastBuild.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B18C1E4D556D003E8962 /* UIView+FastBuild.m */; };
+		E702B1901E4DB298003E8962 /* CustomTableTopHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B18F1E4DB297003E8962 /* CustomTableTopHeader.m */; };
+		E702B1931E4DC5FD003E8962 /* FBTableHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = E702B1921E4DC5FD003E8962 /* FBTableHeaderFooterView.m */; };
 		E72187F41D1AF0A000379333 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E72187F31D1AF0A000379333 /* main.m */; };
 		E72187F71D1AF0A000379333 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E72187F61D1AF0A000379333 /* AppDelegate.m */; };
 		E72187FA1D1AF0A000379333 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E72187F91D1AF0A000379333 /* ViewController.m */; };
@@ -52,6 +54,10 @@
 		E702B1891E4C9903003E8962 /* CustomTableHeaderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableHeaderModel.m; sourceTree = "<group>"; };
 		E702B18B1E4D556D003E8962 /* UIView+FastBuild.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FastBuild.h"; sourceTree = "<group>"; };
 		E702B18C1E4D556D003E8962 /* UIView+FastBuild.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FastBuild.m"; sourceTree = "<group>"; };
+		E702B18E1E4DB297003E8962 /* CustomTableTopHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableTopHeader.h; sourceTree = "<group>"; };
+		E702B18F1E4DB297003E8962 /* CustomTableTopHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableTopHeader.m; sourceTree = "<group>"; };
+		E702B1911E4DC5FD003E8962 /* FBTableHeaderFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBTableHeaderFooterView.h; sourceTree = "<group>"; };
+		E702B1921E4DC5FD003E8962 /* FBTableHeaderFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBTableHeaderFooterView.m; sourceTree = "<group>"; };
 		E72187EF1D1AF0A000379333 /* FastBuildCell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastBuildCell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E72187F31D1AF0A000379333 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E72187F51D1AF0A000379333 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -142,6 +148,8 @@
 				E702B1891E4C9903003E8962 /* CustomTableHeaderModel.m */,
 				E702B1851E4C9174003E8962 /* CustomTableHeaderView.h */,
 				E702B1861E4C9174003E8962 /* CustomTableHeaderView.m */,
+				E702B18E1E4DB297003E8962 /* CustomTableTopHeader.h */,
+				E702B18F1E4DB297003E8962 /* CustomTableTopHeader.m */,
 				E72187F51D1AF0A000379333 /* AppDelegate.h */,
 				E72187F61D1AF0A000379333 /* AppDelegate.m */,
 				E72187F81D1AF0A000379333 /* ViewController.h */,
@@ -194,6 +202,8 @@
 				E72188101D1AF2BE00379333 /* UITableViewCell+FastBuild.m */,
 				E72188361D1AF46700379333 /* UITableViewHeaderFooterView+FastBuild.h */,
 				E72188371D1AF46700379333 /* UITableViewHeaderFooterView+FastBuild.m */,
+				E702B1911E4DC5FD003E8962 /* FBTableHeaderFooterView.h */,
+				E702B1921E4DC5FD003E8962 /* FBTableHeaderFooterView.m */,
 			);
 			path = tableView;
 			sourceTree = "<group>";
@@ -317,6 +327,7 @@
 				E72188331D1AF3FC00379333 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				E721880E1D1AF14D00379333 /* UITableView+FastBuild.m in Sources */,
 				E702B17B1E49B438003E8962 /* UILabel+AddUtils.m in Sources */,
+				E702B1901E4DB298003E8962 /* CustomTableTopHeader.m in Sources */,
 				E72188311D1AF3FC00379333 /* MASViewConstraint.m in Sources */,
 				E721883C1D1AF65700379333 /* NSObject+FastBuild.m in Sources */,
 				E702B1811E4A1073003E8962 /* FBLineSpaceMaker.m in Sources */,
@@ -332,6 +343,7 @@
 				E72188321D1AF3FC00379333 /* NSArray+MASAdditions.m in Sources */,
 				E72188351D1AF3FC00379333 /* ViewController+MASAdditions.m in Sources */,
 				E721882D1D1AF3FC00379333 /* MASConstraint.m in Sources */,
+				E702B1931E4DC5FD003E8962 /* FBTableHeaderFooterView.m in Sources */,
 				E721883F1D1AFAF100379333 /* CustomTableViewCell.m in Sources */,
 				E702B18D1E4D556D003E8962 /* UIView+FastBuild.m in Sources */,
 				E702B1841E4C5187003E8962 /* ViewController1.m in Sources */,

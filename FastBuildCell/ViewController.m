@@ -9,10 +9,12 @@
 #import "ViewController.h"
 #import "CustomTableViewCell.h"
 #import "CustomTableHeaderView.h"
+#import "CustomTableTopHeader.h"
 #import "Masonry.h"
 
 @interface ViewController ()<UITableViewDelegate, UITableViewDataSource, UITableViewCacheDelegate>
 
+@property (nonatomic, strong) CustomTableTopHeader* topHeader;
 @property (nonatomic, strong) UITableView* mTableView;
 @property (nonatomic, strong) NSArray* dataArray;
 
@@ -69,11 +71,29 @@
     self.dataArray = mArr;
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self resetTableHeaderView];
+    });
+    
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [self getDataArray];
     [self.mTableView reloadData];
+    [self resetTableHeaderView];
+}
+
+- (void)resetTableHeaderView
+{
+    NSString* title = @"默认情况下会使用cell的高度缓存，而不是重新计算。也可以通过实现 UITableViewCacheDelegate协议的相关方法来控制是否使用缓存";
+    self.topHeader.titleLbl.text = [title substringFromIndex:arc4random()%title.length * 0.5];
+    CGFloat h = [self.topHeader fb_heightAfterInitialization];
+    self.topHeader.frame = CGRectMake(0, 0, 1, h);
+    self.mTableView.tableHeaderView = self.topHeader;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -142,12 +162,21 @@
 {
     if (!_mTableView) {
         _mTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+//        _mTableView.tableHeaderView = self.topHeader;
         _mTableView.delegate = self;
         _mTableView.dataSource = self;
         [_mTableView registerClass:[CustomTableHeaderView class] forHeaderFooterViewReuseIdentifier:@"headerID"];
 //        _mTableView.cacheDelegate = self;
     }
     return _mTableView;
+}
+
+- (CustomTableTopHeader *)topHeader
+{
+    if (!_topHeader) {
+        _topHeader = [[CustomTableTopHeader alloc] initWithFrame:CGRectMake(0, 0, 1, 0.1)];
+    }
+    return _topHeader;
 }
 
 - (void)dealloc
