@@ -64,11 +64,11 @@
     }
     
     UITableViewCell* cell = [self fb_lgl_pri_cellForClass:cellClass];
-    if ([cell respondsToSelector:@selector(cellHeightWithInfo:)]) {
-        cellHeight = [cell cellHeightWithInfo:info];
+    if ([cell respondsToSelector:@selector(fb_viewHeightWithInfo:)]) {
+        cellHeight = [cell fb_viewHeightWithInfo:info];
     }
-    else if ([cell respondsToSelector:@selector(cellWithInfo:)]) {
-        cellHeight = [self fb_lgl_pri_heightForCell:[cell cellWithInfo:info]];
+    else if ([cell respondsToSelector:@selector(fb_viewWithInfo:)]) {
+        cellHeight = [self fb_lgl_pri_heightForCell:[cell fb_viewWithInfo:info]];
     }
     else {
         cellHeight = 0;
@@ -94,15 +94,34 @@
 - (CGFloat)fb_headerFooterHeightForClass:(Class)headerFooterClass withInfo:(id)info
 {
     UITableViewHeaderFooterView* hfView = [self fb_lgl_pri_headerFooterForClass:headerFooterClass];
-    if ([hfView respondsToSelector:@selector(headerFooterHeightWithInfo:)]) {
-        return [hfView headerFooterHeightWithInfo:info];
+    if ([hfView respondsToSelector:@selector(fb_viewHeightWithInfo:)]) {
+        return [hfView fb_viewHeightWithInfo:info];
     }
-    else if ([hfView respondsToSelector:@selector(headerFooterWithInfo:)]) {
-        return [self fb_lgl_pri_heightForHeaderFooter:[hfView headerFooterWithInfo:info]];
+    else if ([hfView respondsToSelector:@selector(fb_viewWithInfo:)]) {
+        return [self fb_lgl_pri_heightForHeaderFooter:[hfView fb_viewWithInfo:info]];
     }
     else {
         return 0;
     }
+}
+
+- (void)fb_reloadTableHeaderView:(FBTableHeaderFooterView *)tableHeaderView withInfo:(id)info
+{
+    [self fb_lgl_pri_resetTableHeaderFooterView:tableHeaderView withInfo:info];
+    self.tableHeaderView = tableHeaderView;
+}
+
+- (void)fb_reloadTableFooterView:(FBTableHeaderFooterView *)tableFooterView withInfo:(id)info
+{
+    [self fb_lgl_pri_resetTableHeaderFooterView:tableFooterView withInfo:info];
+    self.tableFooterView = tableFooterView;
+}
+
+- (void)fb_lgl_pri_resetTableHeaderFooterView:(FBTableHeaderFooterView *)headerFooterView withInfo:(id)info
+{
+    [headerFooterView fb_viewWithInfo:info];
+    CGFloat h = headerFooterView.fb_heightAfterInitialization;
+    headerFooterView.frame = CGRectMake(0, 0, 1, h);
 }
 
 #pragma mark - - private
@@ -252,8 +271,8 @@
 {
     NSObject* model = [self fb_lgl_pri_modelOfCellModels:cellModels atIndexPath:indexPath];
     UITableViewCell* cell = [self fb_lgl_pri_rawCellOfCellModel:model atIndexPath:indexPath];
-    if ([cell respondsToSelector:@selector(cellWithInfo:)]) {
-        return [cell cellWithInfo:model];
+    if ([cell respondsToSelector:@selector(fb_viewWithInfo:)]) {
+        return [cell fb_viewWithInfo:model];
     }
     else {
         return cell;

@@ -51,7 +51,7 @@
     return _titleLbl;
 }
 
-- (CGFloat)headerFooterHeightWithInfo:(CustomTableHeaderModel*)model
+- (CGFloat)fb_viewHeightWithInfo:(CustomTableHeaderModel*)model
 {
     [self fb_lsResetForModel:model make:^(NSObject *m) {
         
@@ -67,7 +67,7 @@
     return self.fb_heightAfterInitialization;
 }
 
-- (instancetype)headerFooterWithInfo:(CustomTableHeaderModel*)model
+- (instancetype)fb_viewWithInfo:(CustomTableHeaderModel*)model
 {
     CGFloat ls = model.fb_lsMakerForKey(@"1").lineSpace;
     [self.titleLbl xtt_asyncSetText:model.title lineSpace:ls complete:nil];

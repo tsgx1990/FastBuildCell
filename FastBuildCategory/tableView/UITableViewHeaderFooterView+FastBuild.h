@@ -16,11 +16,3 @@
 
 @end
 
-// should maybe overrided
-@interface UITableViewHeaderFooterView ()
-
-- (instancetype)headerFooterWithInfo:(id)info;
-
-- (CGFloat)headerFooterHeightWithInfo:(id)info;
-
-@end

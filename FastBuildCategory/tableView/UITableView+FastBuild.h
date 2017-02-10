@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "FBTableHeaderFooterView.h"
 
 @protocol UITableViewCacheDelegate <NSObject>
 
@@ -46,8 +46,8 @@
 
 #pragma mark - - 快捷创建tableView的系列方法
 #pragma mark - 使用以下方法的条件：
-// 对于计算高度，需要实现cell的cellHeightWithInfo:或者cellWithInfo:方法
-// 对于创建cell，必须要实现cell的cellWithInfo:方法
+// 对于计算高度，需要实现cell的 fb_viewHeightWithInfo: 或者 fb_viewWithInfo: 方法
+// 对于创建cell，必须要实现cell的fb_viewWithInfo:方法
 // 最重要的是，在configBlock中需要对model调用 fb_configReuseCellClass: andIdentifier: inTableView:进行配置
 // 考虑到tableView数据源的添加和删除操作，该方法建议在 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 中调用
 - (void)fb_registerClassWithCellModels:(NSArray *)cellModels modelConfigBlock:(void (^)(UITableView* tableView, id model))configBlock;
@@ -64,6 +64,14 @@
 
 - (CGFloat)fb_cellHeightWithCellModels:(NSArray*)cellModels forIndexPath:(NSIndexPath*)indexPath;
 - (__kindof UITableViewCell*)fb_cellWithCellModels:(NSArray*)cellModels forIndexPath:(NSIndexPath*)indexPath;
+
+
+// FBTableHeaderFooterView
+
+// 以下两个方法均需要 tableHeaderView 实现 fb_viewWithInfo: 方法
+- (void)fb_reloadTableHeaderView:(FBTableHeaderFooterView*)tableHeaderView withInfo:(id)info;
+
+- (void)fb_reloadTableFooterView:(FBTableHeaderFooterView*)tableFooterView withInfo:(id)info;
 
 
 @end

@@ -26,8 +26,8 @@
 - (void)fb_layoutAfterInitialization;
 {
     CGFloat contentWidth = 0;
-    if ([self respondsToSelector:@selector(viewContentViewWidth)]) {
-        contentWidth = self.viewContentViewWidth;
+    if ([self respondsToSelector:@selector(fb_viewContentViewWidth)]) {
+        contentWidth = self.fb_viewContentViewWidth;
     }
     else {
         CGFloat scrWidth = [UIScreen mainScreen].bounds.size.width;
@@ -37,16 +37,16 @@
             case UIInterfaceOrientationLandscapeRight:
             {
                 contentWidth = MAX(scrWidth, scrHeight);
-                if ([self respondsToSelector:@selector(viewContentViewHorizonMargin)]) {
-                    contentWidth -= self.viewContentViewHorizonMargin;
+                if ([self respondsToSelector:@selector(fb_viewContentViewHorizonMargin)]) {
+                    contentWidth -= self.fb_viewContentViewHorizonMargin;
                 }
             }
                 break;
             default:
             {
                 contentWidth = MIN(scrWidth, scrHeight);
-                if ([self respondsToSelector:@selector(viewContentViewVerticalMargin)]) {
-                    contentWidth -= self.viewContentViewVerticalMargin;
+                if ([self respondsToSelector:@selector(fb_viewContentViewVerticalMargin)]) {
+                    contentWidth -= self.fb_viewContentViewVerticalMargin;
                 }
             }
                 break;

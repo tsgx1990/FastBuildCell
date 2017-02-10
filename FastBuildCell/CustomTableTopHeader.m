@@ -7,10 +7,12 @@
 //
 
 #import "CustomTableTopHeader.h"
+#import "UILabel+AddUtils.h"
 #import "Masonry.h"
 
 @interface CustomTableTopHeader ()
 
+@property (nonatomic, strong) UILabel* titleLbl;
 
 @end
 
@@ -48,6 +50,19 @@
         _titleLbl.font = [UIFont systemFontOfSize:22];
     }
     return _titleLbl;
+}
+
+- (instancetype)fb_viewWithInfo:(NSString*)model
+{
+    [self fb_lsResetForModel:model make:^(NSObject *m) {
+        m.fb_lsMakerForKey(@"")
+        .setLabel(self.titleLbl)
+        .setTitle(model)
+        .setLineSpace(12);
+    } set:^(FBLineSpaceMaker *maker) {
+        [maker.label xtt_setText:maker.title lineSpace:maker.lineSpace];
+    }];
+    return self;
 }
 
 @end

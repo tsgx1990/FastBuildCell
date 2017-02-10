@@ -11,6 +11,5 @@
 
 @interface CustomTableTopHeader : FBTableHeaderFooterView
 
-@property (nonatomic, strong) UILabel* titleLbl;
 
 @end

@@ -35,10 +35,14 @@
 @interface UIView()
 
 // 在计算高度时指定 fb_concernedContentView 的宽度约束，不指定的话，将根据横屏或竖屏确定 fb_concernedContentView 的宽度
-@property (nonatomic) CGFloat viewContentViewWidth;
+@property (nonatomic) CGFloat fb_viewContentViewWidth;
 
 // 在计算高度时制定 fb_concernedContentView 距左右的总边距，不指定的话，将根据横屏或竖屏确定 fb_concernedContentView 的宽度
-@property (nonatomic) CGFloat viewContentViewHorizonMargin;
-@property (nonatomic) CGFloat viewContentViewVerticalMargin;
+@property (nonatomic) CGFloat fb_viewContentViewHorizonMargin;
+@property (nonatomic) CGFloat fb_viewContentViewVerticalMargin;
+
+- (CGFloat)fb_viewHeightWithInfo:(id)info;
+
+- (instancetype)fb_viewWithInfo:(id)info;
 
 @end

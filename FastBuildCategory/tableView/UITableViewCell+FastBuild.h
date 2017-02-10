@@ -16,11 +16,3 @@
 
 @end
 
-// should maybe overrided
-@interface UITableViewCell()
-
-- (instancetype)cellWithInfo:(id)info;
-
-- (CGFloat)cellHeightWithInfo:(id)info;
-
-@end

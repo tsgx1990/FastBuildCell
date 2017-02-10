@@ -77,7 +77,7 @@
     return _imgView;
 }
 
-- (CGFloat)cellHeightWithInfo:(CustomTableViewCellModel*)model
+- (CGFloat)fb_viewHeightWithInfo:(CustomTableViewCellModel*)model
 {
     [self fb_lsResetForModel:model make:^(NSObject *m) {
         
@@ -96,7 +96,7 @@
     return self.fb_heightAfterInitialization;
 }
 
-- (instancetype)cellWithInfo:(CustomTableViewCellModel*)model
+- (instancetype)fb_viewWithInfo:(CustomTableViewCellModel*)model
 {
     CGFloat ls1 = model.fb_lsMakerForKey(@"1").lineSpace;
     [self.titleLbl xtt_asyncSetText:model.title lineSpace:ls1 complete:nil];

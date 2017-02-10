@@ -89,11 +89,11 @@
 
 - (void)resetTableHeaderView
 {
-    NSString* title = @"默认情况下会使用cell的高度缓存，而不是重新计算。也可以通过实现 UITableViewCacheDelegate协议的相关方法来控制是否使用缓存";
-    self.topHeader.titleLbl.text = [title substringFromIndex:arc4random()%title.length * 0.5];
-    CGFloat h = [self.topHeader fb_heightAfterInitialization];
-    self.topHeader.frame = CGRectMake(0, 0, 1, h);
-    self.mTableView.tableHeaderView = self.topHeader;
+//    NSString* title = @"默认情况下会使用cell的高度缓存，而不是重新计算。也可以通过实现 UITableViewCacheDelegate协议的相关方法来控制是否使用缓存";
+//    title = [title substringToIndex:arc4random()%(title.length-1) * 0.8];
+    
+    NSString* title = [self.dataArray[2] title];
+    [self.mTableView fb_reloadTableHeaderView:self.topHeader withInfo:title];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -144,7 +144,7 @@
 {
     CustomTableHeaderModel* hModel = [self.dataArray[section] headerModel];
     UITableViewHeaderFooterView* header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headerID"];
-    return [header headerFooterWithInfo:hModel];
+    return [header fb_viewWithInfo:hModel];
 }
 
 #pragma mark - - footer
@@ -162,7 +162,6 @@
 {
     if (!_mTableView) {
         _mTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-//        _mTableView.tableHeaderView = self.topHeader;
         _mTableView.delegate = self;
         _mTableView.dataSource = self;
         [_mTableView registerClass:[CustomTableHeaderView class] forHeaderFooterViewReuseIdentifier:@"headerID"];
