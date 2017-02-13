@@ -23,12 +23,12 @@
 
 - (void)setFb_tableView:(UITableView *)fb_tableView
 {
-    objc_setAssociatedObject(self, @selector(fb_tableView), fb_tableView, OBJC_ASSOCIATION_ASSIGN);
+    [self fb_setWeakValue:fb_tableView forkey:@selector(fb_tableView)];
 }
 
 - (UITableView *)fb_tableView
 {
-    return objc_getAssociatedObject(self, _cmd);
+    return [self fb_weakValueForKey:_cmd];
 }
 
 #pragma mark - - override

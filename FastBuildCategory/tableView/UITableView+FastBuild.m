@@ -31,12 +31,12 @@
 
 - (void)setFb_cacheDelegate:(id<UITableViewCacheDelegate>)fb_cacheDelegate
 {
-    objc_setAssociatedObject(self, @selector(fb_cacheDelegate), fb_cacheDelegate, OBJC_ASSOCIATION_ASSIGN);
+    [self fb_setWeakValue:fb_cacheDelegate forkey:@selector(fb_cacheDelegate)];
 }
 
 - (id<UITableViewCacheDelegate>)fb_cacheDelegate
 {
-    return objc_getAssociatedObject(self, _cmd);
+    return [self fb_weakValueForKey:_cmd];
 }
 
 #pragma mark - - cal cell height
@@ -122,10 +122,12 @@
     return [self fb_headerFooterHeightForClass:hfClass withInfo:info];
 }
 
-- (UITableViewHeaderFooterView *)fb_dequeueReusableHeaderFooterViewWithInfo:(id)info
+- (UITableViewHeaderFooterView *)fb_dequeueReusableHeaderFooterViewWithInfo:(id)info inSection:(NSInteger)section
 {
     NSString* reuseID = [info fb_reuseHFIdentifierInScrollView:self];
     UITableViewHeaderFooterView* hfView = [self dequeueReusableHeaderFooterViewWithIdentifier:reuseID];
+    hfView.fb_tableView = self;
+    hfView.fb_section = section;
     return [hfView fb_viewWithInfo:info];
 }
 

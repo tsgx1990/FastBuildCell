@@ -14,6 +14,10 @@
 @property (nonatomic, readonly) FBLineSpaceMaker* (^fb_lsMakerForKey)(NSString* key);
 - (void)fb_lsEnumerateMakersUsingBlock:(void(^)(NSString* key, FBLineSpaceMaker* maker))block;
 
+// 用于给分类添加 weak 属性
+- (void)fb_setWeakValue:(id)value forkey:(const void *)key;
+- (id)fb_weakValueForKey:(const void *)key;
+
 // 配置 view model
 - (void)fb_configReuseViewClass:(Class)reuseViewClass andIdentifier:(NSString*)reuseIdentifier inScrollView:(UIScrollView*)scrollView;
 

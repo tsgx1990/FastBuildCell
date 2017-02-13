@@ -47,6 +47,23 @@
     }];
 }
 
+- (void)fb_setWeakValue:(id)value forkey:(const void *)key
+{
+    NSHashTable* hashTable = objc_getAssociatedObject(self, key);
+    if (!hashTable) {
+        hashTable = [NSHashTable weakObjectsHashTable];
+        objc_setAssociatedObject(self, key, hashTable, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    [hashTable removeAllObjects];
+    [hashTable addObject:value];
+}
+
+- (id)fb_weakValueForKey:(const void *)key
+{
+    NSHashTable* hashTable = objc_getAssociatedObject(self, key);
+    return hashTable.anyObject;
+}
+
 #pragma mark - - view model 配置
 - (void)fb_configReuseViewClass:(Class)reuseViewClass andIdentifier:(NSString *)reuseIdentifier inScrollView:(UIScrollView *)scrollView
 {

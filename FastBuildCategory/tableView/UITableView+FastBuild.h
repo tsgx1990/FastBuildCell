@@ -47,7 +47,7 @@
 // 该方法同样适用于 cell 的重用
 - (void)fb_registerClass:(Class)aClass forViewReuseIdentifier:(NSString *)identifier withInfo:(id)info;
 - (CGFloat)fb_heightForHeaderFooterWithInfo:(id)info;
-- (__kindof UITableViewHeaderFooterView*)fb_dequeueReusableHeaderFooterViewWithInfo:(id)info;
+- (__kindof UITableViewHeaderFooterView*)fb_dequeueReusableHeaderFooterViewWithInfo:(id)info inSection:(NSInteger)section;
 
 
 #pragma mark - - 快捷创建tableView的系列方法
