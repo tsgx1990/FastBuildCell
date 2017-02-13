@@ -105,6 +105,30 @@
     }
 }
 
+- (void)fb_registerClass:(Class)aClass forViewReuseIdentifier:(NSString *)identifier withInfo:(id)info
+{
+    [info fb_configReuseViewClass:aClass andIdentifier:identifier inScrollView:self];
+    if ([aClass isSubclassOfClass:[UITableViewCell class]]) {
+        [self registerClass:aClass forCellReuseIdentifier:identifier];
+    }
+    if ([aClass isSubclassOfClass:[UITableViewHeaderFooterView class]]) {
+        [self registerClass:aClass forHeaderFooterViewReuseIdentifier:identifier];
+    }
+}
+
+- (CGFloat)fb_heightForHeaderFooterWithInfo:(id)info
+{
+    Class hfClass = [info fb_reuseHFClassInScrollView:self];
+    return [self fb_headerFooterHeightForClass:hfClass withInfo:info];
+}
+
+- (UITableViewHeaderFooterView *)fb_dequeueReusableHeaderFooterViewWithInfo:(id)info
+{
+    NSString* reuseID = [info fb_reuseHFIdentifierInScrollView:self];
+    UITableViewHeaderFooterView* hfView = [self dequeueReusableHeaderFooterViewWithIdentifier:reuseID];
+    return [hfView fb_viewWithInfo:info];
+}
+
 - (void)fb_reloadTableHeaderView:(FBTableHeaderFooterView *)tableHeaderView withInfo:(id)info
 {
     [self fb_lgl_pri_resetTableHeaderFooterView:tableHeaderView withInfo:info];
@@ -246,7 +270,7 @@
         }
         [model fb_useHeightCache:YES inScrollView:self]; // 默认情况下使用高度缓存
         Class modelCellClass = [model fb_reuseCellClassInScrollView:self];
-        NSString* modelCellID = [model fb_reuseIdentifierInScrollView:self];
+        NSString* modelCellID = [model fb_reuseCellIdentifierInScrollView:self];
         [self registerClass:modelCellClass forCellReuseIdentifier:modelCellID];
     }
 }
@@ -293,7 +317,7 @@
 
 - (UITableViewCell*)fb_lgl_pri_rawCellOfCellModel:(NSObject*)cellModel atIndexPath:(NSIndexPath *)indexPath
 {
-    NSString* reuseID = [cellModel fb_reuseIdentifierInScrollView:self];
+    NSString* reuseID = [cellModel fb_reuseCellIdentifierInScrollView:self];
     UITableViewCell* cell = [self dequeueReusableCellWithIdentifier:reuseID forIndexPath:indexPath];
     cell.fb_tableView = self;
     cell.fb_indexPath = indexPath;

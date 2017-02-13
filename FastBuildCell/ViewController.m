@@ -76,7 +76,6 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self resetTableHeaderView];
     });
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -117,7 +116,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     [tableView fb_registerClassWithCellModels:self.dataArray modelConfigBlock:^(UITableView *tableView, id model) {
-        [model fb_configReuseCellClass:[CustomTableViewCell class] andIdentifier:@"cellID" inScrollView:tableView];
+        [model fb_configReuseViewClass:[CustomTableViewCell class] andIdentifier:@"cellID" inScrollView:tableView];
     }];
     return self.dataArray.count;
 }
@@ -136,15 +135,14 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     CustomTableHeaderModel* hModel = [self.dataArray[section] headerModel];
-    CGFloat headerH = [tableView fb_headerFooterHeightForClass:[CustomTableHeaderView class] withInfo:hModel];
-    return headerH;
+    [tableView fb_registerClass:[CustomTableHeaderView class] forViewReuseIdentifier:@"headerID" withInfo:hModel];
+    return [tableView fb_heightForHeaderFooterWithInfo:hModel];
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     CustomTableHeaderModel* hModel = [self.dataArray[section] headerModel];
-    UITableViewHeaderFooterView* header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headerID"];
-    return [header fb_viewWithInfo:hModel];
+    return [tableView fb_dequeueReusableHeaderFooterViewWithInfo:hModel];
 }
 
 #pragma mark - - footer
@@ -164,7 +162,6 @@
         _mTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _mTableView.delegate = self;
         _mTableView.dataSource = self;
-        [_mTableView registerClass:[CustomTableHeaderView class] forHeaderFooterViewReuseIdentifier:@"headerID"];
 //        _mTableView.cacheDelegate = self;
     }
     return _mTableView;

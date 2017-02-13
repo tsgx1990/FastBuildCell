@@ -43,12 +43,18 @@
 - (CGFloat)fb_headerFooterHeightForClass:(Class)headerFooterClass withCallBlock:(void(^)(id calCell))calBlock;
 - (CGFloat)fb_headerFooterHeightForClass:(Class)headerFooterClass withInfo:(id)info;
 
+// 实现 headerFooter 重用，需要调用的系列方法：
+// 该方法同样适用于 cell 的重用
+- (void)fb_registerClass:(Class)aClass forViewReuseIdentifier:(NSString *)identifier withInfo:(id)info;
+- (CGFloat)fb_heightForHeaderFooterWithInfo:(id)info;
+- (__kindof UITableViewHeaderFooterView*)fb_dequeueReusableHeaderFooterViewWithInfo:(id)info;
+
 
 #pragma mark - - 快捷创建tableView的系列方法
 #pragma mark - 使用以下方法的条件：
 // 对于计算高度，需要实现cell的 fb_viewHeightWithInfo: 或者 fb_viewWithInfo: 方法
 // 对于创建cell，必须要实现cell的fb_viewWithInfo:方法
-// 最重要的是，在configBlock中需要对model调用 fb_configReuseCellClass: andIdentifier: inTableView:进行配置
+// 最重要的是，在configBlock中需要对model调用 fb_configReuseViewClass: andIdentifier: inTableView:进行配置
 // 考虑到tableView数据源的添加和删除操作，该方法建议在 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 中调用
 - (void)fb_registerClassWithCellModels:(NSArray *)cellModels modelConfigBlock:(void (^)(UITableView* tableView, id model))configBlock;
 

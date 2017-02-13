@@ -14,11 +14,14 @@
 @property (nonatomic, readonly) FBLineSpaceMaker* (^fb_lsMakerForKey)(NSString* key);
 - (void)fb_lsEnumerateMakersUsingBlock:(void(^)(NSString* key, FBLineSpaceMaker* maker))block;
 
-// 配置model
-- (void)fb_configReuseCellClass:(Class)reuseCellClass andIdentifier:(NSString*)reuseIdentifier inScrollView:(UIScrollView*)scrollView;
+// 配置 view model
+- (void)fb_configReuseViewClass:(Class)reuseViewClass andIdentifier:(NSString*)reuseIdentifier inScrollView:(UIScrollView*)scrollView;
 
 - (Class)fb_reuseCellClassInScrollView:(UIScrollView*)scrollView;
-- (NSString*)fb_reuseIdentifierInScrollView:(UIScrollView*)scrollView;
+- (NSString*)fb_reuseCellIdentifierInScrollView:(UIScrollView*)scrollView;
+
+- (Class)fb_reuseHFClassInScrollView:(UIScrollView*)scrollView;
+- (NSString*)fb_reuseHFIdentifierInScrollView:(UIScrollView*)scrollView;
 
 #pragma mark - - 是否使用缓存的cell高度
 - (void)fb_useHeightCache:(BOOL)usingHeightCache inScrollView:(UIScrollView*)scrollView;

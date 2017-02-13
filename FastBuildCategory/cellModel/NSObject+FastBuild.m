@@ -14,7 +14,6 @@
 @property (nonatomic, retain, readonly) NSMutableDictionary* fb_lgl_pri_cellHeightCache;
 @property (nonatomic, retain, readonly) NSMutableDictionary* fb_lgl_pri_usingHeightCacheStorage;
 
-@property (nonatomic, retain, readonly) NSMutableDictionary* fb_lgl_pri_cellClassStorage;
 @property (nonatomic, retain, readonly) NSMutableDictionary* fb_lgl_pri_reuseIdentifierStorage;
 
 @property (nonatomic, retain, readonly) NSMutableDictionary* fb_lgl_pri_lsMakerMapper;
@@ -48,22 +47,36 @@
     }];
 }
 
-#pragma mark - - model配置
-- (void)fb_configReuseCellClass:(Class)reuseCellClass andIdentifier:(NSString *)reuseIdentifier inScrollView:(UIScrollView *)scrollView
+#pragma mark - - view model 配置
+- (void)fb_configReuseViewClass:(Class)reuseViewClass andIdentifier:(NSString *)reuseIdentifier inScrollView:(UIScrollView *)scrollView
 {
-    NSString* key = [self fb_lgl_pri_storageKeyForScrollView:scrollView];
-    [self.fb_lgl_pri_cellClassStorage setValue:reuseCellClass forKey:key];
-    [self.fb_lgl_pri_reuseIdentifierStorage setValue:reuseIdentifier forKey:key];
+    NSString* key = [self fb_lgl_pri_storageKeyForScrollView:scrollView viewClass:(Class)reuseViewClass];
+    NSDictionary* dic = @{@"class": reuseViewClass, @"id": reuseIdentifier};
+    [self.fb_lgl_pri_reuseIdentifierStorage setValue:dic forKey:key];
 }
 
 - (Class)fb_reuseCellClassInScrollView:(UIScrollView *)scrollView
 {
-    return [self.fb_lgl_pri_cellClassStorage objectForKey:[self fb_lgl_pri_storageKeyForScrollView:scrollView]];
+    NSString* key = [self fb_lgl_pri_storageKeyForScrollView:scrollView viewClass:[UITableViewCell class]];
+    return self.fb_lgl_pri_reuseIdentifierStorage[key][@"class"];
 }
 
-- (NSString*)fb_reuseIdentifierInScrollView:(UIScrollView *)scrollView
+- (NSString*)fb_reuseCellIdentifierInScrollView:(UIScrollView *)scrollView
 {
-    return [self.fb_lgl_pri_reuseIdentifierStorage valueForKey:[self fb_lgl_pri_storageKeyForScrollView:scrollView]];
+    NSString* key = [self fb_lgl_pri_storageKeyForScrollView:scrollView viewClass:[UITableViewCell class]];
+    return self.fb_lgl_pri_reuseIdentifierStorage[key][@"id"];
+}
+
+- (Class)fb_reuseHFClassInScrollView:(UIScrollView *)scrollView
+{
+    NSString* key = [self fb_lgl_pri_storageKeyForScrollView:scrollView viewClass:[UITableViewHeaderFooterView class]];
+    return self.fb_lgl_pri_reuseIdentifierStorage[key][@"class"];
+}
+
+- (NSString *)fb_reuseHFIdentifierInScrollView:(UIScrollView *)scrollView
+{
+    NSString* key = [self fb_lgl_pri_storageKeyForScrollView:scrollView viewClass:[UITableViewHeaderFooterView class]];
+    return self.fb_lgl_pri_reuseIdentifierStorage[key][@"id"];
 }
 
 #pragma mark - - 是否使用缓存的cell高度
@@ -108,14 +121,20 @@
 #pragma mark - - private
 - (NSString*)fb_lgl_pri_cacheKeyOfScrollView:(UIScrollView*)scrollView
 {
-    NSString* reuseID = [self fb_reuseIdentifierInScrollView:scrollView];
+    NSString* reuseID = [self fb_reuseCellIdentifierInScrollView:scrollView];
     NSString* key = [NSString stringWithFormat:@"%p-%@", scrollView, reuseID];
     return key;
 }
 
-- (NSString*)fb_lgl_pri_storageKeyForScrollView:(UIScrollView*)scrollView
+- (NSString*)fb_lgl_pri_storageKeyForScrollView:(UIScrollView*)scrollView viewClass:(Class)reuseCellClass
 {
     NSString* key = [NSString stringWithFormat:@"%p", scrollView];
+    if ([reuseCellClass isSubclassOfClass:[UITableViewCell class]]) {
+        key = [@"cell-" stringByAppendingString:key];
+    }
+    if ([reuseCellClass isSubclassOfClass:[UITableViewHeaderFooterView class]]) {
+        key = [@"headerFooter-" stringByAppendingString:key];
+    }
     return key;
 }
 
@@ -137,16 +156,6 @@
         objc_setAssociatedObject(self, _cmd, usingStorage, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return usingStorage;
-}
-
-- (NSMutableDictionary *)fb_lgl_pri_cellClassStorage
-{
-    NSMutableDictionary* mDic = objc_getAssociatedObject(self, _cmd);
-    if (!mDic) {
-        mDic = [NSMutableDictionary dictionaryWithCapacity:6];
-        objc_setAssociatedObject(self, _cmd, mDic, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    return mDic;
 }
 
 - (NSMutableDictionary *)fb_lgl_pri_reuseIdentifierStorage
